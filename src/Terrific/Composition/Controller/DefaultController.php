@@ -18,4 +18,14 @@ class DefaultController extends Controller
     {
         return array();
     }
+
+    /**
+     * @Composer("Editor")
+     * @Route("/editor", name="editor")
+     * @Template()
+     */
+    public function editorAction()
+    {
+        return array();
+    }
 }

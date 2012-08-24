@@ -6,6 +6,7 @@
     {% stylesheets
         '@TerrificComposition/Resources/public/css/bootstrap/bootstrap.less'
         '@TerrificComposition/Resources/public/css/bootstrap/responsive.less'
+        '@TerrificComposition/Resources/public/css/codemirror/theme/monokai.css'
         '@TerrificComposition/Resources/public/css/elements.less'
         output="css/compiled/project.css"
     %}
@@ -17,17 +18,32 @@
 {% endblock %}
 
 {% block scripts %}
-    {# here comes your scripts
-        {% javascripts
-          '@TerrificComposition/Resources/public/js/*.*'
-           output='js/compiled/statics.js'
-        %}
-            <script src="{{ asset_url }}" type="text/javascript"></script>
-        {% endjavascripts %}
-    #}
+    {% javascripts
+      '@TerrificComposition/Resources/public/js/underscore-min.js'
+      '@TerrificComposition/Resources/public/js/backbone-min.js'
+       output='js/compiled/backbone.js'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% javascripts
+      '@TerrificComposition/Resources/public/js/models/init.js'
+      '@TerrificComposition/Resources/public/js/models/blueprint/*.js'
+      '@TerrificComposition/Resources/public/js/models/model.js'
+       output='js/compiled/models.js'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
 
     {# scripts from parent (terrific core) layout #}
     {{ parent() }}
+
+    {% javascripts
+      '@TerrificComposition/Resources/public/js/codemirror/mode/*/*.js'
+       output='js/compiled/modes.js'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
 {% endblock %}
 
 {# set the body class -> e.g. global module #}

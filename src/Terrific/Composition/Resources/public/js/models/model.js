@@ -1,0 +1,1 @@
+window.Preview = new window.blueprint.Preview();

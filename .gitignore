@@ -10,3 +10,11 @@ web/bundles/*
 
 # Configuration files
 app/config/parameters.ini
+
+# Compiles resources
+/web/css/compiled/
+/web/js/compiled/
+
+# Mac & IDE stuff
+.DS_Store
+.idea/

@@ -1,0 +1,20 @@
+{% extends 'TerrificComposition::base.html.twig' %}
+
+{% block title %}terrific.io{% endblock %}
+
+{% block body %}
+<div class="container">
+    {{ tc.module('Promo') }}
+    <div class="row">
+        <div class="span4">
+            {{ tc.module('Teaser', 'inspiration')}}
+        </div>
+        <div class="span4">
+            {{ tc.module('Teaser', 'wheel')}}
+        </div>
+        <div class="span4">
+            {{ tc.module('Teaser', 'meetup')}}
+        </div>
+    </div>
+</div>
+{% endblock %}

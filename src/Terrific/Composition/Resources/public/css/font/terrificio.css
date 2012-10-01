@@ -1,0 +1,43 @@
+@font-face {
+	font-family: 'terrificio';
+	src:url('/font/terrificio.eot');
+	src:url('/font/terrificio.eot?#iefix') format('embedded-opentype'),
+		url('/font/terrificio.svg#terrificio') format('svg'),
+		url('/font/terrificio.woff') format('woff'),
+		url('/font/terrificio.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'terrificio';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+[class^="icon-"]:before, [class*=" icon-"]:before {
+	font-family: 'terrificio';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
+.icon-cloud:before {
+	content: "\e003";
+}
+.icon-eye:before {
+	content: "\e70a";
+}
+.icon-html5:before {
+	content: "\e000";
+}
+.icon-css3:before {
+	content: "\e001";
+}
+.icon-js:before {
+	content: "\e002";
+}

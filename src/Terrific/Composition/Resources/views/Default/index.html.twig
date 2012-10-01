@@ -3,18 +3,16 @@
 {% block title %}terrific.io{% endblock %}
 
 {% block body %}
+<script id="view-edit" type="text/x-dot-template">
+    <div class="mod mod-toolbar" data-connectors="1"></div>
+    <div class="mod mod-editor" data-type="markup" data-connectors="1"></div>
+    <div class="mod mod-editor" data-type="style" data-connectors="1"></div>
+    <div class="mod mod-editor" data-type="script" data-connectors="1"></div>
+
+    <iframe class="mod mod-preview" data-connectors="1"></iframe>
+</script>
+
 <div class="container">
-    {{ tc.module('Promo') }}
-    <div class="row">
-        <div class="span4">
-            {{ tc.module('Teaser', 'inspiration')}}
-        </div>
-        <div class="span4">
-            {{ tc.module('Teaser', 'wheel')}}
-        </div>
-        <div class="span4">
-            {{ tc.module('Teaser', 'meetup')}}
-        </div>
-    </div>
+
 </div>
 {% endblock %}

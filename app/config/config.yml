@@ -66,4 +66,4 @@ jms_security_extra:
 
 terrific_composer:
     composition_bundles: [@TerrificComposition] # the bundles where the controllers for your frontend lie
-    module_layout: @TerrificComposition::base.html.twig # the layout to take for the separate module view
+    module_layout: @TerrificComposition::basemodule.html.twig # the layout to take for the separate module view

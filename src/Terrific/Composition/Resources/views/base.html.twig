@@ -1,80 +1,114 @@
-{% extends 'TerrificCoreBundle::base.html.twig' %}
-
-{% block title %}Terrific Composer{% endblock %}
-
-{% block styles %}
+{# Terrific/CoreBundle/Resources/views/base.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}terrific.io{% endblock %}</title>
+    <meta charset="UTF-8"/>
+    {% block meta %}
+    {% endblock %}
+    {# stylesheets #}
+    {% block styles %}
     {% stylesheets
-        '@TerrificComposition/Resources/public/css/bootstrap/bootstrap.less'
-        '@TerrificComposition/Resources/public/css/bootstrap/responsive.less'
-        '@TerrificComposition/Resources/public/css/codemirror/theme/monokai.css'
+            '../src/Terrific/Module/*/Resources/public/css/*.*'
+            '../src/Terrific/Module/*/Resources/public/css/skin/*.*'
+            filter="terrificrewrite"
+            output="css/compiled/base.css"
+        %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% stylesheets
+        '@TerrificComposition/Resources/public/css/reset.css'
+        '@TerrificComposition/Resources/public/css/grid.css'
+        '@TerrificComposition/Resources/public/css/libraries/codemirror/codemirror.css'
+        '@TerrificComposition/Resources/public/css/libraries/codemirror/theme/solarized.css'
+        '@TerrificComposition/Resources/public/css/font/terrificio.css'
         '@TerrificComposition/Resources/public/css/elements.less'
         output="css/compiled/project.css"
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+    {% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
 
-    {# styles from parent (terrific core) layout #}
-    {{ parent() }}
+{# include doT templates #}
+{% include 'TerrificModuleEditor::editor.html.twig' %}
+{% include 'TerrificModulePreview::preview.html.twig' %}
+{% include 'TerrificModuleInspiration::inspiration.html.twig' %}
+{% include 'TerrificModuleToolbar::toolbar.html.twig' %}
+
+{% block composition %}
+{# the content goes here #}
+{% block body %}{% endblock %}
+
 {% endblock %}
 
 {% block scripts %}
     {% javascripts
-      '@TerrificComposition/Resources/public/js/underscore-min.js'
-      '@TerrificComposition/Resources/public/js/backbone-min.js'
+        '@TerrificCoreBundle/Resources/public/js/jquery-1.7.2.min.js'
+        output='js/compiled/jquery-1.7.2.min.js'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% javascripts
+        '@TerrificComposition/Resources/public/js/libraries/terrific-2.0.1.min.js'
+        output='js/compiled/terrific-2.0.1.min.js'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% javascripts
+      '@TerrificComposition/Resources/public/js/libraries/underscore-min.js'
+      '@TerrificComposition/Resources/public/js/libraries/backbone-min.js'
+      '@TerrificComposition/Resources/public/js/libraries/localstorage-extension.js'
+      '@TerrificComposition/Resources/public/js/libraries/doT.min.js'
        output='js/compiled/backbone.js'
     %}
         <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
 
     {% javascripts
-      '@TerrificComposition/Resources/public/js/models/init.js'
-      '@TerrificComposition/Resources/public/js/models/blueprint/*.js'
-      '@TerrificComposition/Resources/public/js/models/model.js'
+      '@TerrificComposition/Resources/public/js/models/*.js'
        output='js/compiled/models.js'
     %}
         <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
 
-    {# scripts from parent (terrific core) layout #}
-    {{ parent() }}
+    {% javascripts
+      '@TerrificComposition/Resources/public/js/routers/*.js'
+       output='js/compiled/routers.js'
+    %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
 
     {% javascripts
-      '@TerrificComposition/Resources/public/js/codemirror/mode/*/*.js'
-       output='js/compiled/modes.js'
+            '../src/Terrific/Module/*/Resources/public/js/*.js'
+            '../src/Terrific/Module/*/Resources/public/js/skin/*.js'
+            output='js/compiled/base.js'
     %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {% javascripts
+          '@TerrificComposition/Resources/public/js/libraries/codemirror/codemirror.js'
+          '@TerrificComposition/Resources/public/js/libraries/codemirror/mode/*/*.js'
+           output='js/compiled/codemirror.js'
+        %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+
+    {# This is the starting point!!!! #}
+    {% javascripts
+          '@TerrificComposition/Resources/public/js/init.js'
+           output='js/compiled/init.js'
+        %}
         <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
 {% endblock %}
 
-{# set the body class -> e.g. global module #}
-{% block body_class %}{% endblock %}
-
-{# content that is the same on every page (ie. logo) goes into composition #}
-{% block composition %}
-
-{# your page content goes into body #}
-{% block body %}
-{% endblock %}
-
-{% endblock %}
-
-{# terrificjs bootstrap #}
 {% block bootstrap %}
-    <script type="text/javascript">
-        (function($) {
-            $(document).ready(function() {
-                var $page = $('html'),
-                    config = {
-                        dependencyPath: {
-                            js: '{{ app.request.basepath }}/js/dependencies/',
-                            css: '{{ app.request.basepath }}/css/dependencies/'
-                        }
-                    },
-                    application = new Tc.Application($page, config);
-
-                application.registerModules();
-                application.start();
-            });
-        })(Tc.$);
-    </script>
 {% endblock %}
+</body>
+</html>

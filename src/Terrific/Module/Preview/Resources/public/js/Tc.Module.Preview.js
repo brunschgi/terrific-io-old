@@ -2,59 +2,34 @@
 
     "use strict";
 
-    /**
-     * Preview module implementation.
-     *
-     * @author Terrific Composer
-     * @namespace Tc.Module
-     * @class Preview
-     * @extends Tc.Module
-     */
     Tc.Module.Preview = Tc.Module.extend({
-        /**
-         * Initializes the Preview module.
-         *
-         * @method init
-         * @return {void}
-         * @constructor
-         * @param {jQuery} $ctx the jquery context
-         * @param {Sandbox} sandbox the sandbox to get the resources from
-         * @param {Number} id the unique module id
-         */
+
         init:function ($ctx, sandbox, id) {
             // call base constructor
             this._super($ctx, sandbox, id);
-            this.model = window.Preview;
+            this.model = sandbox.getConfigParam('model').module;
         },
 
-        /**
-         * Hook function to do all of your module stuff.
-         *
-         * @method on
-         * @param {Function} callback function
-         * @return void
-         */
         on:function (callback) {
             var self = this,
                 $ctx = this.$ctx,
-                model = this.model,
-                $iframe = $ctx.contents();
+                $iframe = $ctx.contents(),
+                model = this.model;
 
-            // prepare iframe head
+            // create DOM
+            var view = doT.template($('#mod-preview').text());
+            $ctx.html(view({ model : model }));
             $('head', $iframe)[0].innerHTML = '<style></style>';
 
-            model.get('markup').on('change:code', function() {
-                $('body', $iframe).html(model.get('markup').get('code'));
-            });
-
-            model.get('style').on('change:code', function() {
+            // because iframe content can not be rendered directly with doT, we need to render it manually
+            var render = function() {
+                // style
                 $('style', $iframe).text(model.get('style').get('code'));
-            });
 
-            model.get('script').on('change:code', function() {
-                // clear & redraw the markup to remove events
+                // markup
                 $('body', $iframe).empty().html(model.get('markup').get('code'));
 
+                // script
                 var doc = $iframe[0];
 
                 var jqueryElement = doc.createElement('script');
@@ -63,18 +38,42 @@
 
                 var scriptElement = doc.createElement('script');
                 scriptElement.setAttribute('type','text/javascript');
-                scriptElement.appendChild(doc.createTextNode('try {' + model.get('script').get('code') + ' } catch(e) { console.log(e.message); }'));
+                scriptElement.appendChild(doc.createTextNode('$(function() { try {' + model.get('script').get('code') + ' } catch(e) { console.log(e.message); } });'));
 
                 var head = doc.getElementsByTagName('head')[0];
                 head.appendChild(jqueryElement);
                 head.appendChild(scriptElement);
+            };
 
-                window.onerror = function (msg, url, line) {
-                    console.log(msg);
-                };
+            // editor events
+            model.get('markup').on('change:code', function() {
+                render();
             });
 
+            model.get('style').on('change:code', function() {
+                render();
+            });
+
+            model.get('script').on('change:code', function() {
+                render();
+            });
+
+            // initial rendering
+            render();
+
             callback();
+        },
+
+        onActivate: function(data) {
+            var self = this,
+                $ctx = this.$ctx;
+
+            if(data.type === 'preview') {
+                $ctx.show();
+            }
+            else {
+                $ctx.hide();
+            }
         }
     });
 })(Tc.$);

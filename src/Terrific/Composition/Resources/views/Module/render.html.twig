@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+    <title>Preview</title>
+    <style>
+        {{ module.style.code | raw }}
+    </style>
+    <script>
+        {{ module.script.code | raw }}
+    </script>
+</head>
+<body>
+{{ module.markup.code | raw }}
+</body>
+</html>

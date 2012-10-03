@@ -3,7 +3,16 @@
 {% block title %}terrific.io{% endblock %}
 
 {% block body %}
-<script id="view-edit" type="text/x-dot-template">
+<script id="tpl-module-edit" type="text/x-dot-template">
+    <div class="mod mod-toolbar" data-connectors="1"></div>
+    <div class="mod mod-editor" data-type="markup" data-connectors="1"></div>
+    <div class="mod mod-editor" data-type="style" data-connectors="1"></div>
+    <div class="mod mod-editor" data-type="script" data-connectors="1"></div>
+
+    <iframe class="mod mod-preview" data-connectors="1"></iframe>
+</script>
+
+<script id="tpl-module-view" type="text/x-dot-template">
     <div class="mod mod-toolbar" data-connectors="1"></div>
     <div class="mod mod-editor" data-type="markup" data-connectors="1"></div>
     <div class="mod mod-editor" data-type="style" data-connectors="1"></div>

@@ -4,7 +4,7 @@
 
     window.Module = Backbone.Model.extend({
 
-        url: '/app_dev.php/data/module',
+        urlRoot: '/app_dev.php/data/module',
 
         defaults:function () {
             var markup = new window.Snippet({ 'mode' : 'text/html', 'code' : ''});
@@ -19,6 +19,8 @@
         },
 
         parse: function(response) {
+            this.set('id', response.id);
+
             if(response.markup) {
                 this.get('markup').set(response.markup);
             }

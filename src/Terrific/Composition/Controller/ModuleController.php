@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ModuleController extends Controller
 {
     /**
-     * @Route("/", defaults={"_format"="json"}, name="module_create")
+     * @Route("", defaults={"_format"="json"}, name="module_create")
      * @Method({"POST"})
      */
     public function createAction(Request $request)
@@ -24,12 +24,40 @@ class ModuleController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
-        $tmpModule = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Module', 'json');
-        $module = $repo->create();
-        $module = $repo->update($module->getId(), $tmpModule);
+        $module = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Module', 'json');
+        $module = $repo->create($module);
 
         return new Response($serializer->serialize($module, 'json'));
     }
+
+    /**
+     * @Route("/{id}", defaults={"_format"="json"}, name="module_read")
+     * @Method({"GET"})
+     */
+    public function readAction($id)
+    {
+        $serializer = $this->container->get('serializer');
+        $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
+
+        $module = $repo->find($id);
+
+        if(!$module) {
+            throw new \Exception('the module with the id "'.$id.'" could not be found');
+        }
+
+        return new Response($serializer->serialize($module, 'json'));
+    }
+
+    /**
+     * @Route("/{id}", defaults={"_format"="json"}, name="module_delete")
+     * @Method({"DELETE"})
+     */
+    public function deleteAction($id)
+    {
+        $this->getDoctrine()->getRepository('TerrificComposition:Module')->delete($id);
+        return new Response();
+    }
+
 
     /**
      * @Route("/render/{id}", name="module_render")
@@ -40,40 +68,10 @@ class ModuleController extends Controller
 
         $module = $repo->find($id);
 
+        if(!$module) {
+            throw new \Exception('the module with the id "'.$id.'" could not be found');
+        }
+
         return array('module' => $module);
     }
-
-    /**
-     * @Route("/{id}", defaults={"_format"="json", "id"=""}, requirements={"id"=".*"}, name="module_read")
-     * @Method({"GET"})
-     */
-    public function readAction($id)
-    {
-        $serializer = $this->container->get('serializer');
-        $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
-
-        $module = null;
-
-        if(!empty($id)) {
-            $module = $repo->find($id);
-        }
-        else {
-            // create default module
-            $module = $repo->create();
-        }
-
-        return new Response($serializer->serialize($module, 'json'));
-    }
-
-    /**
-     * @Route("/{id}", defaults={"_format"="json", "id"="new"}, requirements={"id"=".*"}, name="module_delete")
-     * @Method({"DELETE"})
-     */
-    public function deleteAction($id)
-    {
-        $this->getDoctrine()->getRepository('TerrificComposition:Module')->delete($id);
-        return new Response();
-    }
-
-
 }

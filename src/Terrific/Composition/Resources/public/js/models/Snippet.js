@@ -9,7 +9,7 @@
         defaults:function () {
             return {
                 mode:'text/plain',
-                code:'Plain Text'
+                code:'Sample Code'
             };
         },
 

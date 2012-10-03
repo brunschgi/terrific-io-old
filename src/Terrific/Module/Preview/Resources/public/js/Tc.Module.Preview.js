@@ -13,36 +13,56 @@
         on:function (callback) {
             var self = this,
                 $ctx = this.$ctx,
-                $iframe = $ctx.contents(),
-                model = this.model;
+                doc = $ctx.contents()[0],
+                model = this.model,
+                baseurl = '/js/dependencies/' + model.get('id'),
+                view = doT.template($('#mod-preview').text());
+
 
             // create DOM
-            var view = doT.template($('#mod-preview').text());
-            $ctx.html(view({ model : model }));
-            $('head', $iframe)[0].innerHTML = '<style></style>';
+            $ctx.html(view());
+
+            var head = doc.getElementsByTagName('head')[0],
+                body = doc.getElementsByTagName('body')[0],
+                $body = $(body);
 
             // because iframe content can not be rendered directly with doT, we need to render it manually
+            head.innerHTML = '<style></style>';
+            var style = doc.getElementsByTagName('style')[0];
+
+            var requirejs = doc.createElement('script');
+            requirejs.setAttribute('type','text/javascript');
+            requirejs.setAttribute('src', '/js/dependencies/libraries/require.js');
+
+            var requireConfig = doc.createElement('script');
+            requireConfig.setAttribute('type','text/javascript');
+            requireConfig.appendChild(doc.createTextNode('requirejs.config({ baseUrl: "' + baseurl + '", paths: { lib: "../libraries" }});'));
+
+            // start loading
+            requirejs.onload = function() {
+                head.appendChild(requireConfig);
+
+                // initial rendering
+                render();
+            };
+
+            head.appendChild(requirejs);
+
             var render = function() {
-                // style
-                $('style', $iframe).text(model.get('style').get('code'));
+                // style -> including all external resources
+                style.innerHTML = '<style>body { margin: 0; } ' + model.get('style').get('code') + '</style>';
 
                 // markup
-                $('body', $iframe).empty().html(model.get('markup').get('code'));
+                body.innerHTML = model.get('markup').get('code');
 
-                // script
-                var doc = $iframe[0];
+                // script -> wrapped with a require.js definition for all external resources
+                var script = doc.createElement('script');
+                script.setAttribute('type','text/javascript');
+                script.appendChild(doc.createTextNode('require(["lib/jquery", "lib/terrific"], function() {' + model.get('script').get('code') + ' });'));
+                head.appendChild(script);
 
-                var jqueryElement = doc.createElement('script');
-                jqueryElement.setAttribute('type','text/javascript');
-                jqueryElement.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js');
-
-                var scriptElement = doc.createElement('script');
-                scriptElement.setAttribute('type','text/javascript');
-                scriptElement.appendChild(doc.createTextNode('$(function() { try {' + model.get('script').get('code') + ' } catch(e) { console.log(e.message); } });'));
-
-                var head = doc.getElementsByTagName('head')[0];
-                head.appendChild(jqueryElement);
-                head.appendChild(scriptElement);
+                // set height
+                $ctx.height($body.outerHeight());
             };
 
             // editor events
@@ -57,9 +77,6 @@
             model.get('script').on('change:code', function() {
                 render();
             });
-
-            // initial rendering
-            render();
 
             callback();
         },

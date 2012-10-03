@@ -14,29 +14,26 @@ use Terrific\Composition\Entity\Module;
  */
 class ModuleRepository extends EntityRepository
 {
-    public function create() {
+    public function create($module) {
         $em = $this->getEntityManager();
 
-        $module = new Module();
+        // create some default values
         $module->setTitle('My new experiment');
         $module->setDescription('Psst… please give away a secret about your experiment');
 
-        $markup = new Snippet();
+        $markup = $module->getMarkup();
         $markup->setMode('text/html');
         $markup->setCode('<div class="mod mod-draft">Test</div>');
 
-        $style = new Snippet();
+        $style = $module->getStyle();
         $style->setMode('text/css');
         $style->setCode('.mod-draft { color: navy }');
 
-        $script = new Snippet();
+        $script = $module->getScript();
         $script->setMode('text/javascript');
         $script->setCode('');
 
-        $module->setMarkup($markup);
-        $module->setStyle($style);
-        $module->setScript($script);
-
+        // persist it
         $em->persist($markup);
         $em->persist($style);
         $em->persist($script);
@@ -52,11 +49,11 @@ class ModuleRepository extends EntityRepository
 
         $module = $this->find($id);
 
-        $module->setCode($tmpModule->setTitle($tmpModule->getTitle()));
-        $module->setCode($tmpModule->setDescription($tmpModule->getDescription()));
-        $module->setCode($tmpModule->setMarkup($tmpModule->getMarkup()));
-        $module->setCode($tmpModule->setStyle($tmpModule->getStyle()));
-        $module->setCode($tmpModule->setScript($tmpModule->getScript()));
+        $module->setTitle($tmpModule->getTitle());
+        $module->setDescription($tmpModule->getDescription());
+        $module->setMarkup($tmpModule->getMarkup());
+        $module->setStyle($tmpModule->getStyle());
+        $module->setScript($tmpModule->getScript());
 
         $em->flush();
 

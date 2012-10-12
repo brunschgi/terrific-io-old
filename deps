@@ -85,3 +85,14 @@
     git=http://github.com/symfony/AsseticBundle.git
     target=/bundles/Symfony/Bundle/AsseticBundle
     version=origin/2.0
+
+[HWIOAuthBundle]
+    git=http://github.com/hwi/HWIOAuthBundle.git
+    target=/bundles/HWI/Bundle/OAuthBundle
+
+[Buzz]
+git=http://github.com/kriswallsmith/Buzz.git
+
+[SensioBuzzBundle]
+git=http://github.com/sensio/SensioBuzzBundle.git
+target=bundles/Sensio/Bundle/BuzzBundle

@@ -31,7 +31,22 @@ class ModuleController extends Controller
     }
 
     /**
-     * @Route("/{id}", defaults={"_format"="json"}, name="module_read")
+     * @Route("/list/{page}", defaults={"_format"="json"}, name="module_list")
+     * @Method({"GET"})
+     */
+    public function listAction($page)
+    {
+        $serializer = $this->container->get('serializer');
+        $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
+
+        $modules = $repo->findPage($page);
+
+        return new Response($serializer->serialize($modules, 'json'));
+    }
+
+
+    /**
+     * @Route("/{id}", defaults={"_format"="json"}, requirements={"id"="\d+"}, name="module_read")
      * @Method({"GET"})
      */
     public function readAction($id)
@@ -49,7 +64,7 @@ class ModuleController extends Controller
     }
 
     /**
-     * @Route("/{id}", defaults={"_format"="json"}, name="module_delete")
+     * @Route("/{id}", defaults={"_format"="json"}, requirements={"id"="\d+"}, name="module_delete")
      * @Method({"DELETE"})
      */
     public function deleteAction($id)
@@ -58,9 +73,8 @@ class ModuleController extends Controller
         return new Response();
     }
 
-
     /**
-     * @Route("/render/{id}", name="module_render")
+     * @Route("/render/{id}", requirements={"id"="\d+"}, name="module_render")
      * @Template()
      */
     public function renderAction($id) {

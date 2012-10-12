@@ -2,6 +2,9 @@ security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
 
+    factories:
+        - "%kernel.root_dir%/../vendor/bundles/HWI/Bundle/OAuthBundle/Resources/config/security_factory.xml"
+
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
@@ -17,21 +20,19 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-
         secured_area:
-            pattern:    ^/demo/secured/
-            form_login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
-            logout:
-                path:   /demo/secured/logout
-                target: /demo/
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
+            pattern:    ^/.*
+            anonymous: true
+            logout: true
+            oauth:
+                resource_owners:
+                    twitter: "/auth/check-twitter"
+                    github: "/auth/check-github"
+                login_path:        /auth/
+                failure_path:      /auth/failure/
+
+                oauth_user_provider:
+                    oauth: ~
 
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

@@ -6,38 +6,25 @@
 
         urlRoot: '/app_dev.php/data/module',
 
-        defaults:function () {
-            var markup = new window.Snippet({ 'mode' : 'text/html', 'code' : ''});
-            var style = new window.Snippet({ 'mode' : 'text/css', 'code' : ''});
-            var script = new window.Snippet({ 'mode' : 'text/javascript', 'code' : ''});
-
-            return {
-                markup: markup,
-                style: style,
-                script: script
-            };
-        },
-
         parse: function(response) {
-            this.set('id', response.id);
-
-            if(response.markup) {
-                this.get('markup').set(response.markup);
+            // handle specials (init if necessary)
+            if(!this.markup) {
+                response.markup = new window.Snippet(response.markup);
             }
 
-            if(response.style) {
-                this.get('style').set(response.style);
+            if(!this.style) {
+                response.style = new window.Snippet(response.style);
             }
 
-            if(response.script) {
-                this.get('script').set(response.script);
+            if(!this.script) {
+                response.script = new window.Snippet(response.script);
             }
+
+            return response;
         },
-
 
         clear:function () {
             this.destroy();
         }
-
     });
 })(Tc.$);

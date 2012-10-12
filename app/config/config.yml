@@ -64,6 +64,27 @@ jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
 
+hwi_oauth:
+    # name of the firewall in which this bundle is active, this setting MUST be set
+    firewall_name: secured_area
+
+    resource_owners:
+        github:
+            type:                github
+            client_id:           bc85682621c0a4e346c9
+            client_secret:       82f39a60808b94bf1c04207866198a8b184575bd
+            scope:               ""
+        twitter:
+            type:           twitter
+            client_id:      Gy7wIuajjHGpgTJxdbB1eg
+            client_secret:  ivpsmlkmpUOqWtGYtpiSO2uvO6l7cm4O9xKM2EbzcI
+
+    http_client:
+        timeout:       10 # Time in seconds, after library will shutdown request, by default: 5
+        verify_peer:   true # Setting allowing you to turn off SSL verification, by default: true
+        ignore_errors: true # Setting allowing you to easier debug request errors, by default: true
+        max_redirects: 5 # Number of HTTP redirection request after which library will shutdown request, by default: 5
+
 terrific_composer:
     composition_bundles: [@TerrificComposition] # the bundles where the controllers for your frontend lie
     module_layout: @TerrificComposition::basemodule.html.twig # the layout to take for the separate module view

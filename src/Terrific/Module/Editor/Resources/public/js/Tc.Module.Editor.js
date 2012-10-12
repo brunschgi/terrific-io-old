@@ -13,6 +13,7 @@
             var self = this,
                 $ctx = this.$ctx,
                 model = this.model,
+                readonly = $ctx.data('readonly'),
                 delay;
 
             // create DOM
@@ -27,7 +28,12 @@
                     clearTimeout(delay);
                     delay = setTimeout(function() {
                         // change model
-                        model.save({'code' : editor.getValue()});
+                        if(readonly) {
+                            model.set({'code' : editor.getValue()});
+                        }
+                        else {
+                            model.save({'code' : editor.getValue()});
+                        }
                     }, 300);
                 }
             });

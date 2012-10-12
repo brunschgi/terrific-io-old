@@ -18,7 +18,6 @@
                 baseurl = '/js/dependencies/' + model.get('id'),
                 view = doT.template($('#mod-preview').text());
 
-
             // create DOM
             $ctx.html(view());
 

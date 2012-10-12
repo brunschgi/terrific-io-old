@@ -19,6 +19,7 @@ class SecuredController extends Controller
      */
     public function loginAction()
     {
+        $this->get('logger')->warn('HAAAAALOOO');
         if ($this->get('request')->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $this->get('request')->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else {
@@ -27,7 +28,7 @@ class SecuredController extends Controller
 
         return array(
             'last_username' => $this->get('request')->getSession()->get(SecurityContext::LAST_USERNAME),
-            'error'         => $error,
+            'error'         => $error
         );
     }
 

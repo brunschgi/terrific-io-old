@@ -7,6 +7,7 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony'          => array(__DIR__.'/../vendor/symfony/src', __DIR__.'/../vendor/bundles'),
     'Sensio'           => __DIR__.'/../vendor/bundles',
+    'Buzz'             => __DIR__.'/../vendor/buzz/lib',
     'JMS'              => __DIR__.'/../vendor/bundles',
     'Doctrine\\Common' => __DIR__.'/../vendor/doctrine-common/lib',
     'Doctrine\\DBAL'   => __DIR__.'/../vendor/doctrine-dbal/lib',
@@ -15,6 +16,7 @@ $loader->registerNamespaces(array(
     'Assetic'          => __DIR__.'/../vendor/assetic/src',
     'Metadata'         => __DIR__.'/../vendor/metadata/src',
     'Terrific'         => __DIR__.'/../vendor/bundles',
+    'HWI'              => __DIR__.'/../vendor/bundles'
 
 ));
 $loader->registerPrefixes(array(

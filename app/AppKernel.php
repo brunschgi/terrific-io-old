@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle($this),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
             new Terrific\CoreBundle\TerrificCoreBundle(),
             new Terrific\ComposerBundle\TerrificComposerBundle(),
 

@@ -24,15 +24,14 @@ class SnippetController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Snippet');
 
-        $tmpSnippet = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Snippet', 'json');
-        $snippet = $repo->create();
-        $snippet = $repo->update($snippet->getId(), $tmpSnippet);
+        $snippet = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Snippet', 'json');
+        $snippet = $repo->create($snippet);
 
         return new Response($serializer->serialize($snippet, 'json'));
     }
 
     /**
-     * @Route("/{id}", defaults={"_format"="json", "id"=""}, requirements={"id"=".*"}, name="snippet_read")
+     * @Route("/{id}", defaults={"_format"="json"}, name="snippet_read")
      * @Method({"GET"})
      */
     public function readAction($id)
@@ -40,21 +39,17 @@ class SnippetController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Snippet');
 
-        $snippet = null;
+        $snippet = $repo->find($id);
 
-        if(!empty($id)) {
-            $snippet = $repo->find($id);
-        }
-        else {
-            // create default snippet
-            $snippet = $repo->create();
+        if(!$snippet) {
+            throw new \Exception('the snippet with the id "'.$id.'" could not be found');
         }
 
         return new Response($serializer->serialize($snippet, 'json'));
     }
 
     /**
-     * @Route("/{id}", defaults={"_format"="json", "id"="new"}, requirements={"id"=".*"}, name="snippet_update")
+     * @Route("/{id}", defaults={"_format"="json"}, name="snippet_update")
      * @Method({"PUT"})
      */
     public function updateAction(Request $request, $id)
@@ -62,8 +57,8 @@ class SnippetController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Snippet');
 
-        $tmpSnippet = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Snippet', 'json');
-        $snippet = $repo->update($id, $tmpSnippet);
+        $snippet = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Snippet', 'json');
+        $snippet = $repo->update($id, $snippet);
 
         return new Response($serializer->serialize($snippet, 'json'));
     }

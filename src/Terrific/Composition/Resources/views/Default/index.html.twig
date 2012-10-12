@@ -3,23 +3,36 @@
 {% block title %}terrific.io{% endblock %}
 
 {% block body %}
+{% raw %}
 <script id="tpl-module-edit" type="text/x-dot-template">
     <div class="mod mod-toolbar" data-connectors="1"></div>
     <div class="mod mod-editor" data-type="markup" data-connectors="1"></div>
     <div class="mod mod-editor" data-type="style" data-connectors="1"></div>
     <div class="mod mod-editor" data-type="script" data-connectors="1"></div>
 
-    <iframe class="mod mod-preview" data-connectors="1"></iframe>
+    <iframe allowtransparency="true" frameborder="0" scrolling="no" class="mod mod-preview" data-connectors="1"></iframe>
 </script>
 
 <script id="tpl-module-view" type="text/x-dot-template">
     <div class="mod mod-toolbar" data-connectors="1"></div>
-    <div class="mod mod-editor" data-type="markup" data-connectors="1"></div>
-    <div class="mod mod-editor" data-type="style" data-connectors="1"></div>
-    <div class="mod mod-editor" data-type="script" data-connectors="1"></div>
+    <div class="mod mod-editor" data-readonly="true" data-type="markup" data-connectors="1"></div>
+    <div class="mod mod-editor" data-readonly="true" data-type="style" data-connectors="1"></div>
+    <div class="mod mod-editor" data-readonly="true" data-type="script" data-connectors="1"></div>
 
-    <iframe class="mod mod-preview" data-connectors="1"></iframe>
+    <iframe allowtransparency="true" frameborder="0" scrolling="no" class="mod mod-preview" data-connectors="1"></iframe>
 </script>
+
+<script id="tpl-module-list" type="text/x-dot-template">
+    <ul>
+        {{~it.models : model}}
+            <li>
+                <h3>{{= model.get('title') }}</h3>
+                <iframe allowtransparency="true" frameborder="0" scrolling="no" src="{{= it.baseurl }}/data/module/render/{{= model.get('id') }}"></iframe>
+             </li>
+        {{~}}
+    </ul>
+</script>
+{% endraw %}
 
 <div class="container">
 

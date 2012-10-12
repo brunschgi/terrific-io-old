@@ -68,4 +68,14 @@ class ModuleRepository extends EntityRepository
         $em->remove($module);
         $em->flush();
     }
+
+    public function findPage($page) {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT m FROM TerrificComposition:Module m")
+            ->setFirstResult($page * 10)
+            ->setMaxResults(10);
+
+        return $query->getResult();
+    }
 }

@@ -2,9 +2,9 @@
 
     "use strict";
 
-    window.Module = Backbone.Model.extend({
+    window.Project = Backbone.Model.extend({
 
-        urlRoot: Tc.Config.baseurl + '/api/module',
+        urlRoot: Tc.Config.baseurl + '/api/project',
 
         parse: function(response) {
             // handle specials (init if necessary)
@@ -16,8 +16,8 @@
                 response.style = new window.Snippet(response.style);
             }
 
-            if(!this.script) {
-                response.script = new window.Snippet(response.script);
+            if(!this.modules) {
+                response.modules = [];
             }
 
             return response;

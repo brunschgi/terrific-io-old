@@ -10,7 +10,7 @@ use JMS\SerializerBundle\Annotation\Type;
 /**
  * Terrific\Composition\Entity\Snippet
  *
- * @ORM\Table()
+ * @ORM\Table(name="snippet")
  * @ORM\Entity(repositoryClass="Terrific\Composition\Entity\SnippetRepository")
  */
 class Snippet

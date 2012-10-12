@@ -22,14 +22,23 @@ class ModuleRepository extends EntityRepository
         $module->setDescription('Psst… please give away a secret about your experiment');
 
         $markup = $module->getMarkup();
+        if(!$markup) {
+            $markup = new Snippet();
+        }
         $markup->setMode('text/html');
         $markup->setCode('<div class="mod mod-draft">Test</div>');
 
         $style = $module->getStyle();
+        if(!$style) {
+            $style = new Snippet();
+        }
         $style->setMode('text/css');
         $style->setCode('.mod-draft { color: navy }');
 
         $script = $module->getScript();
+        if(!$script) {
+            $script = new Snippet();
+        }
         $script->setMode('text/javascript');
         $script->setCode('');
 
@@ -69,11 +78,11 @@ class ModuleRepository extends EntityRepository
         $em->flush();
     }
 
-    public function findPage($page) {
+    public function findPage($type, $page) {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT m FROM TerrificComposition:Module m")
-            ->setFirstResult($page * 10)
+            ->setFirstResult(($page - 1) * 10)
             ->setMaxResults(10);
 
         return $query->getResult();

@@ -2,28 +2,34 @@
 
     "use strict";
 
-    window.ModuleRouter = Backbone.Router.extend({
+    window.ProjectRouter = Backbone.Router.extend({
 
         routes: {
-            'module/list/:type/:page' : 'list',
-            'module/create' : 'create',
-            'module/edit/:id' : 'edit',
-            'module/view/:id' : 'view'
+            'project/list' : 'list',
+            'project/list/:page' : 'list',
+            'project/create' : 'create',
+            'project/edit/:id' : 'edit',
+            'project/view/:id' : 'view'
         },
 
-        list: function(type, page) {
+        list: function(page) {
+            // validation
+            if(!page) {
+                page = 1;
+            }
+
             // clear recent terrific application
             delete window.application;
 
             // model stuff
             var model = {};
-            model.modules = new window.Modules();
-            model.modules.url += '/' + type + '/' + page;
+            model.projects = new window.Projects();
+            model.projects.url += '/' + page;
 
-            model.modules.fetch({
+            model.projects.fetch({
                 success: function(data) {
                     // create DOM
-                    var view = doT.template($('#tpl-module-list').text());
+                    var view = doT.template($('#tpl-project-list').text());
                     var $page = $('.container');
                     data.baseurl = Tc.Config.baseurl;
                     $page.html(view(data));
@@ -34,7 +40,7 @@
                     application.start();
                 },
                 error: function(response) {
-                    console.error('an error occured during loading the modules');
+                    console.error('an error occured during loading the projects');
                 }
             });
         },
@@ -47,14 +53,14 @@
 
             // model stuff
             var model = {};
-            model.module = new window.Module();
+            model.module = new window.Project();
 
             model.module.save({}, {
                 success: function(data) {
-                   self.navigate('module/edit/' + data.id, { trigger : true });
+                   self.navigate('project/edit/' + data.id, { trigger : true });
                 },
                 error: function(response) {
-                   console.error('an error occured during creating the module');
+                   console.error('an error occured during creating the project');
                 }
             });
         },
@@ -65,12 +71,12 @@
 
             // model stuff
             var model = {};
-            model.module = new window.Module({ id : id });
+            model.module = new window.Project({ id : id });
 
             model.module.fetch({
                 success: function() {
                     // create DOM
-                    var view = doT.template($('#tpl-module-edit').text());
+                    var view = doT.template($('#tpl-project-edit').text());
                     var $page = $('.container');
                     $page.html(view());
 
@@ -80,7 +86,7 @@
                     application.start();
                 },
                 error: function(response) {
-                    console.error('an error occured during loading the module');
+                    console.error('an error occured during loading the project');
                 }
             });
         },
@@ -91,12 +97,12 @@
 
             // model stuff
             var model = {};
-            model.module = new window.Module({ id : id });
+            model.project = new window.Project({ id : id });
 
-            model.module.fetch({
+            model.project.fetch({
                 success: function() {
                     // create DOM
-                    var view = doT.template($('#tpl-module-view').text());
+                    var view = doT.template($('#tpl-project-view').text());
                     var $page = $('.container');
                     $page.html(view());
 
@@ -106,7 +112,7 @@
                     application.start();
                 },
                 error: function(response) {
-                    console.error('an error occured during loading the module');
+                    console.error('an error occured during loading the project');
                 }
             });
         }

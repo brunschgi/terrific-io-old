@@ -10,12 +10,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Composer("Welcome")
-     * @Route("/", name="home")
-     * @Template()
+     * @Composer("Any")
+     * @Route("/{any}", name="any", requirements={"any" = "((?!api\/).)*"})
+     * @Template("TerrificComposition:Default:index.html.twig")
      */
-    public function indexAction()
+    public function anyAction($any)
     {
         return array();
     }
+
 }

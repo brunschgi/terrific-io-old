@@ -39,15 +39,23 @@
 {% include 'TerrificModuleToolbar::toolbar.html.twig' %}
 
 {% block composition %}
-{# the content goes here #}
-{% block body %}{% endblock %}
+<div class="container">
 
+</div>
+{# the content goes here #}
+{% block body %}
+{% endblock %}
 {% endblock %}
 
 {% block scripts %}
 
     <script src="{{ asset('/js/dependencies/libraries/jquery.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/js/dependencies/libraries/terrific.js') }}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        // global config
+        Tc.Config = $.extend({}, Tc.Config, { 'baseurl' : $('body').data('baseurl') });
+    </script>
 
     {% javascripts
       'js/dependencies/libraries/underscore.js'

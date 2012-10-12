@@ -11,15 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/data/module")
+ * @Route("/api/module")
  */
 class ModuleController extends Controller
 {
     /**
-     * @Route("", defaults={"_format"="json"}, name="module_create")
+     * @Route("", defaults={"_format"="json"}, name="module_add")
      * @Method({"POST"})
      */
-    public function createAction(Request $request)
+    public function addAction(Request $request)
     {
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
@@ -31,25 +31,25 @@ class ModuleController extends Controller
     }
 
     /**
-     * @Route("/list/{page}", defaults={"_format"="json"}, name="module_list")
+     * @Route("/list/{type}/{page}", defaults={"_format"="json"}, name="module_list")
      * @Method({"GET"})
      */
-    public function listAction($page)
+    public function listAction($type, $page)
     {
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
-        $modules = $repo->findPage($page);
+        $modules = $repo->findPage($type, $page);
 
         return new Response($serializer->serialize($modules, 'json'));
     }
 
 
     /**
-     * @Route("/{id}", defaults={"_format"="json"}, requirements={"id"="\d+"}, name="module_read")
+     * @Route("/{id}", defaults={"_format"="json"}, requirements={"id"="\d+"}, name="module_get")
      * @Method({"GET"})
      */
-    public function readAction($id)
+    public function getAction($id)
     {
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');

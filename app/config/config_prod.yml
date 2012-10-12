@@ -20,9 +20,9 @@ monolog:
 
 assetic:
     filters:
-        cssmin:
-            apply_to: "\.css$"
-            file:   %kernel.root_dir%/../vendor/cssmin/cssmin.php
+        #cssmin:
+        #    apply_to: "\.css$"
+        #    file:   %kernel.root_dir%/../vendor/cssmin/cssmin.php
 
         jsmin:
             apply_to: "\.js"

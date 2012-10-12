@@ -4,6 +4,6 @@
 
     window.Modules = Backbone.Collection.extend({
         model: window.Module,
-        url: '/app_dev.php/data/module/list'
+        url: Tc.Config.baseurl + '/api/module/list'
     });
 })(Tc.$);

@@ -3,14 +3,13 @@
 namespace Terrific\Composition\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToOne;
 use JMS\SerializerBundle\Annotation\ReadOnly;
 use JMS\SerializerBundle\Annotation\Type;
 
 /**
  * Terrific\Composition\Entity\Module
  *
- * @ORM\Table()
+ * @ORM\Table(name="module")
  * @ORM\Entity(repositoryClass="Terrific\Composition\Entity\ModuleRepository")
  */
 class Module
@@ -42,19 +41,25 @@ class Module
     private $description;
 
     /**
-     * @OneToOne(targetEntity="Snippet")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="modules")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
+    private $project;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Snippet")
      * @Type("Terrific\Composition\Entity\Snippet")
      */
     private $markup;
 
     /**
-     * @OneToOne(targetEntity="Snippet")
+     * @ORM\OneToOne(targetEntity="Snippet")
      * @Type("Terrific\Composition\Entity\Snippet")
      */
     private $style;
 
     /**
-     * @OneToOne(targetEntity="Snippet")
+     * @ORM\OneToOne(targetEntity="Snippet")
      * @Type("Terrific\Composition\Entity\Snippet")
      */
     private $script;
@@ -167,5 +172,28 @@ class Module
     public function getScript()
     {
         return $this->script;
+    }
+
+    /**
+     * Set project
+     *
+     * @param Terrific\Composition\Entity\Project $project
+     * @return Module
+     */
+    public function setProject(\Terrific\Composition\Entity\Project $project = null)
+    {
+        $this->project = $project;
+    
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return Terrific\Composition\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
     }
 }

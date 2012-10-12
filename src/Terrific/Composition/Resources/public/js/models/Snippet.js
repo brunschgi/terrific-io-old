@@ -4,7 +4,7 @@
 
     window.Snippet = Backbone.Model.extend({
 
-        urlRoot: '/app_dev.php/data/snippet',
+        urlRoot: Tc.Config.baseurl + '/api/snippet',
 
         defaults:function () {
             return {

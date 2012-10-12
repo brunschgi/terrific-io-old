@@ -14,17 +14,17 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Symfony\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new JMS\AopBundle\JMSAopBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle($this),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
-            new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
             new Terrific\CoreBundle\TerrificCoreBundle(),
             new Terrific\ComposerBundle\TerrificComposerBundle(),
-
-            new Terrific\Composition\TerrificComposition()
+            new Terrific\Composition\TerrificComposition(),
+            new FOS\UserBundle\FOSUserBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

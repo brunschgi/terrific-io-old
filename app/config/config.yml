@@ -1,20 +1,22 @@
 imports:
-    - { resource: parameters.ini }
+    - { resource: parameters.yml }
     - { resource: security.yml }
 
 framework:
-    #esi:             ~
-    #translator:      { fallback: %locale% }
+    #esi:            ~
+    translator:      ~
     secret:          %secret%
-    charset:         UTF-8
-    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    session:
-        default_locale: %locale%
-        auto_start:     true
+    default_locale:  %locale%
+    trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
+    session:         ~
+
 
 # Twig Configuration
 twig:
@@ -25,14 +27,15 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
+    bundles: [TerrificComposition]
     # java: /usr/bin/java
     filters:
         cssrewrite: ~
         terrificrewrite:
-            resource: %kernel.root_dir%/../vendor/bundles/Terrific/CoreBundle/Resources/config/terrificrewrite.xml
+            resource: %kernel.root_dir%/../vendor/brunschgi/terrific-core-bundle/Terrific/CoreBundle/Resources/config/terrificrewrite.xml
         lessphp:
             apply_to: "\.less$"
-            file:   %kernel.root_dir%/../vendor/lessphp/lessc.inc.php
+            file:   %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
         # closure:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:
@@ -59,14 +62,11 @@ swiftmailer:
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
-
-jms_security_extra:
-    secure_controllers:  true
-    secure_all_services: false
+    spool:     { type: memory }
 
 hwi_oauth:
     # name of the firewall in which this bundle is active, this setting MUST be set
-    firewall_name: secured_area
+    firewall_name: main
 
     resource_owners:
         github:
@@ -79,11 +79,27 @@ hwi_oauth:
             client_id:      Gy7wIuajjHGpgTJxdbB1eg
             client_secret:  ivpsmlkmpUOqWtGYtpiSO2uvO6l7cm4O9xKM2EbzcI
 
+    fosub:
+       # try 30 times to check if a username is available (foo, foo1, foo2 etc)
+       username_iterations: 30
+
+       # mapping between resource owners (see below) and properties
+       properties:
+           github: githubId
+           twitter: twitterId
+
+    connect: ~
+
     http_client:
         timeout:       10 # Time in seconds, after library will shutdown request, by default: 5
         verify_peer:   true # Setting allowing you to turn off SSL verification, by default: true
         ignore_errors: true # Setting allowing you to easier debug request errors, by default: true
         max_redirects: 5 # Number of HTTP redirection request after which library will shutdown request, by default: 5
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Terrific\Composition\Entity\User
 
 terrific_composer:
     composition_bundles: [@TerrificComposition] # the bundles where the controllers for your frontend lie

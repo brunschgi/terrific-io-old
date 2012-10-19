@@ -22,8 +22,7 @@
         "brunschgi/terrific-core-bundle": "dev-master",
         "brunschgi/terrific-composer-bundle": "dev-master",
         "leafo/lessphp": "dev-master",
-        "hwi/oauth-bundle": "dev-master",
-        "friendsofsymfony/user-bundle": "*"
+        "hwi/oauth-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

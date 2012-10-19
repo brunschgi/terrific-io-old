@@ -1,0 +1,86 @@
+@import "../../../../../../Terrific/Composition/Resources/public/css/import.less";
+
+/* @group module: login */
+
+@media screen {
+    .mod-login {
+        text-align: center;
+        margin-top: 25%;
+
+        .or {
+            z-index: 6;
+            top: -2px;
+            position: relative;
+            display: inline-block;
+            width: 1.5em;
+            height: 1.5em;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 1.5em;
+            margin: 0 -1em;
+            background: @friar-gray;
+            .border-radius(1.5em);
+            color: @white;
+        }
+
+        a {
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            font-size: 18/14em;
+            padding: 10/14em;
+            color: @friar-gray;
+            .vertical-gradient(@wafer, @silver-rust);
+            box-shadow: 0 1px 0 rgba(183, 176, 170, 0.8), /* shadow */ 0 -1px 0 @white; /* highlight */
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4), /* shadow */ 0 1px 0 rgba(255, 255, 255, 0.5); /* highlight */
+
+            i {
+                display: inline-block;
+                overflow: hidden;
+                height: 47px;
+                opacity: 0.3;
+                font-size: 47/14em;
+                line-height: 1em;
+                vertical-align: bottom;
+                margin-bottom: -11px;
+            }
+        }
+
+        .github {
+            .border-radius(8px 0 0 8px);
+            padding-right: 20/14em;
+
+            i {
+                padding-right: 2/14em;
+            }
+        }
+
+        .twitter {
+            .border-radius(0 8px 8px 0);
+            padding-left: 20/14em;
+
+            i {
+                padding-left: 2/14em;
+            }
+        }
+
+        a:hover, a:active {
+            background: @wafer;
+            color: @dodger-blue;
+            text-shadow: 0 -1px 0 rgba(132, 131, 129, 0.8), /* shadow */ 0 1px 0 rgba(255, 255, 255, 0.5); /* highlight */
+
+            i {
+                opacity: 0.5;
+            }
+        }
+
+        .tt {
+            width: 250px;
+            position: relative;
+            margin: 0 auto;
+            line-height: 1.2em;
+        }
+    }
+}
+
+/* @end */

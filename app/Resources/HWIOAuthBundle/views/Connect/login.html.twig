@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>terrific.io, login</title>
+    <meta charset="UTF-8"/>
+    {% block meta %}
+    {% endblock %}
+    {# stylesheets #}
+    {% block styles %}
+        {% stylesheets
+        '@TerrificComposition/Resources/public/css/reset.css'
+        '@TerrificComposition/Resources/public/css/grid.css'
+        '@TerrificComposition/Resources/public/css/libraries/codemirror/codemirror.css'
+        '@TerrificComposition/Resources/public/css/libraries/codemirror/theme/solarized.css'
+        '@TerrificComposition/Resources/public/css/font/terrificio.css'
+        '@TerrificComposition/Resources/public/css/elements.less'
+        output="css/compiled/project.css"
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+
+        {% stylesheets
+        '../src/Terrific/Module/*/Resources/public/css/*.*'
+        '../src/Terrific/Module/*/Resources/public/css/skin/*.*'
+        filter="terrificrewrite"
+        output="css/compiled/base.css"
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<body data-baseurl="{{ app.request.baseurl }}">
+
+<div class="container">
+    {{ tc.module('Login', 'login', null, null, null, { error: error }) }}
+</div>
+
+{% block scripts %}
+    <script src="{{ asset('/js/dependencies/libraries/jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/dependencies/libraries/terrific.js') }}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        // global config
+        Tc.Config = $.extend({}, Tc.Config, { 'baseurl' : $('body').data('baseurl') });
+    </script>
+
+    {% javascripts
+    '../src/Terrific/Module/*/Resources/public/js/*.js'
+    '../src/Terrific/Module/*/Resources/public/js/skin/*.js'
+    output='js/compiled/base.js'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+</body>
+</html>

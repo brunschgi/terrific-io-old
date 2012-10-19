@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Terrific\Module\Teaser;
+namespace Terrific\Module\Login;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class TerrificModuleTeaser extends Bundle
+class TerrificModuleLogin extends Bundle
 {
 }

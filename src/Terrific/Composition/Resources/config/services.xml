@@ -7,6 +7,12 @@
     <services>
         <service id="terrific_composition.user.provider"
             class="Terrific\Composition\Service\UserProvider" public="true">
+            <argument type="service" id="doctrine" />
+            <argument type="string">Terrific\Composition\Entity\User</argument>
+            <argument type="collection">
+                <argument key="twitter">twitterId</argument>
+                <argument key="github">githubId</argument>
+            </argument>
         </service>
     </services>
 </container>

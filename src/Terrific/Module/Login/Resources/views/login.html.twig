@@ -1,0 +1,11 @@
+<a class="github" href="{{ path('hwi_oauth_service_redirect', { service : 'github'}) }}"><i class="icon-github"></i>Github</a>
+<span class="or">or</span>
+<a class="twitter" href="{{ path('hwi_oauth_service_redirect', { service : 'twitter'}) }}">Twitter<i
+        class="icon-twitter"></i></a>
+
+{% if error %}
+    <div class="tt">
+        <i class="icon-cloud"></i>
+        <span>{{ error }}</span>
+    </div>
+{% endif %}

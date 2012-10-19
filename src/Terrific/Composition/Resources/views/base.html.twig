@@ -9,15 +9,6 @@
     {# stylesheets #}
     {% block styles %}
     {% stylesheets
-            '../src/Terrific/Module/*/Resources/public/css/*.*'
-            '../src/Terrific/Module/*/Resources/public/css/skin/*.*'
-            filter="terrificrewrite"
-            output="css/compiled/base.css"
-        %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-
-    {% stylesheets
         '@TerrificComposition/Resources/public/css/reset.css'
         '@TerrificComposition/Resources/public/css/grid.css'
         '@TerrificComposition/Resources/public/css/libraries/codemirror/codemirror.css'
@@ -28,6 +19,15 @@
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+
+    {% stylesheets
+    '../src/Terrific/Module/*/Resources/public/css/*.*'
+    '../src/Terrific/Module/*/Resources/public/css/skin/*.*'
+    filter="terrificrewrite"
+    output="css/compiled/base.css"
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
     {% endblock %}
 </head>
 <body data-baseurl="{{ app.request.baseurl }}" class="{% block body_class %}{% endblock %}">

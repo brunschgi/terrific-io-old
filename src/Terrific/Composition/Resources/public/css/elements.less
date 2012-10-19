@@ -1,11 +1,41 @@
 @import "import.less";
 
 html {
-  background: #F5F2F0;
+    background: #F5F2F0 url('/img/noise.png')
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial;
-  font-size: 14/16em;
-  line-height: 18/14em;
+/*font-family: "Helvetica Neue", Helvetica, Arial;*/
+    font-family: "museo-sans", sans-serif;
+    font-size: 14/16em;
+    line-height: 18/14em;
+}
+
+.tt {
+    text-align: left;
+    position: absolute;
+    background: @dodger-blue;
+    top: 18/14em;
+    left: 4.5em;
+    .border-radius(4px);
+    padding: 3/14em 6/14em 4/14em;
+    color: @white;
+    text-shadow: none;
+    line-height: 1em;
+    z-index: 2;
+}
+
+.tt i {
+    opacity: 1;
+    color: @dodger-blue;
+    position: absolute;
+    left: -8/14em;
+    top: 4/14em;
+    font-size: 14/14em;
+    line-height: 1em;
+}
+
+.tt span {
+    font-size: 12/14em;
+    line-height: 1em;
 }

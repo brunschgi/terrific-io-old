@@ -3,16 +3,16 @@
     "use strict";
 
     /**
-     * Teaser module implementation.
+     * Login module implementation.
      *
      * @author Terrific Composer
      * @namespace Tc.Module
-     * @class Teaser
+     * @class Login
      * @extends Tc.Module
      */
-    Tc.Module.Teaser = Tc.Module.extend({
+    Tc.Module.Login = Tc.Module.extend({
         /**
-         * Initializes the Teaser module.
+         * Initializes the Login module.
          *
          * @method init
          * @return {void}

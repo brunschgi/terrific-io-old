@@ -25,7 +25,7 @@ class ProjectController extends Controller
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Project');
 
         $project = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Project', 'json');
-        $project = $repo->create($project);
+        $project = $repo->create($this->getUser(), $project);
 
         return new Response($serializer->serialize($project, 'json'));
     }
@@ -39,7 +39,7 @@ class ProjectController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Project');
 
-        $projects = $repo->findPage($page);
+        $projects = $repo->getPage($this->getUser(), $page);
 
         return new Response($serializer->serialize($projects, 'json'));
     }
@@ -54,7 +54,7 @@ class ProjectController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Project');
 
-        $project = $repo->find($id);
+        $project = $repo->get($this->getUser(), $id);
 
         if(!$project) {
             throw new \Exception('the project with the id "'.$id.'" could not be found');
@@ -69,7 +69,7 @@ class ProjectController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->getDoctrine()->getRepository('TerrificComposition:Project')->delete($id);
+        $this->getDoctrine()->getRepository('TerrificComposition:Project')->delete($this->getUser(), $id);
         return new Response();
     }
 
@@ -80,7 +80,7 @@ class ProjectController extends Controller
     public function renderAction($id) {
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Project');
 
-        $project = $repo->find($id);
+        $project = $repo->get($this->getUser(), $id);
 
         if(!$project) {
             throw new \Exception('the project with the id "'.$id.'" could not be found');

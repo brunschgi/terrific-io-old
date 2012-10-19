@@ -3,16 +3,16 @@
     "use strict";
 
     /**
-     * Promo module implementation.
+     * Sidebar module implementation.
      *
      * @author Terrific Composer
      * @namespace Tc.Module
-     * @class Promo
+     * @class Sidebar
      * @extends Tc.Module
      */
-    Tc.Module.Promo = Tc.Module.extend({
+    Tc.Module.Sidebar = Tc.Module.extend({
         /**
-         * Initializes the Promo module.
+         * Initializes the Sidebar module.
          *
          * @method init
          * @return {void}

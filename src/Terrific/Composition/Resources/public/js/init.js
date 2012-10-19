@@ -5,7 +5,7 @@
     var moduleRouter = new window.ModuleRouter();
     var projectRouter = new window.ProjectRouter();
 
-    Backbone.history.start({pushState: true, root: Tc.Config.baseurl });
+    Backbone.history.start({pushState: true, root: Tc.Config.baseurl + '/'});
 
 })(Tc.$);
 

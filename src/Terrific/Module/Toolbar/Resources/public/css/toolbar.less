@@ -3,93 +3,68 @@
 /* @group module: toolbar */
 
 @media screen {
-  .mod-toolbar {
-    position: fixed;
-    top: 100px;
-    left: -8px;
-    display: inline-block;
-    .vertical-gradient(@wafer, @silver-rust);
-    .border-radius(8px);
-    box-shadow: 0 1px 0 rgba(183, 176, 170, 0.8), /* shadow */ 0 -1px 0 @white; /* highlight */
-    z-index: 1;
+    .mod-toolbar {
+        position: fixed;
+        top: 100px;
+        left: -8px;
+        display: inline-block;
+        .vertical-gradient(@wafer, @silver-rust);
+        .border-radius(8px);
+        box-shadow: 0 1px 0 rgba(183, 176, 170, 0.8), /* shadow */ 0 -1px 0 @white; /* highlight */
+        z-index: 1;
 
-    li {
-      position: relative;
-      padding-left: 8px;
-      border-top: 1px dashed @white;
-    }
+        li {
+            position: relative;
+            padding-left: 8px;
 
-    li:first-child {
-      border-top: none;
-    }
+        }
 
-    a {
-      display: block;
-      text-decoration: none;
-      padding: 10/14em;
-      color: @friar-gray;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8), /* shadow */ 0 1px 0 rgba(255, 255, 255, 0.5); /* highlight */
-    }
+        li:first-child {
+            border-top: none;
+        }
 
-    i {
-      opacity: 0.7;
-      font-size: 32/14em;
-      line-height: 32/32em;
-    }
+        a {
+            display: block;
+            text-decoration: none;
+            padding: 10/14em;
+            color: @friar-gray;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8), /* shadow */ 0 1px 0 rgba(255, 255, 255, 0.5); /* highlight */
 
-    a:hover {
-      background: @silver-rust;
-    }
+            i {
+                opacity: 0.7;
+                font-size: 32/14em;
+                line-height: 32/32em;
+            }
+        }
 
-    a:active, a.active {
-      background: @wafer;
-      color: @dodger-blue;
-      text-shadow: 0 -1px 0 rgba(132, 131, 129, 0.8), /* shadow */ 0 1px 0 rgba(255, 255, 255, 0.5); /* highlight */
-    }
+        a:hover {
+            background: @silver-rust;
+        }
 
-    li:first-child a {
-      .border-radius(0 8px 0 0);
-    }
+        a:active, a.active {
+            background: @wafer;
+            color: @dodger-blue;
+            text-shadow: 0 -1px 0 rgba(132, 131, 129, 0.8), /* shadow */ 0 1px 0 rgba(255, 255, 255, 0.5); /* highlight */
+        }
 
-    li:last-child a {
-      .border-radius(0 0 8px 0);
-    }
+        li:first-child a {
+            .border-radius(0 8px 0 0);
+        }
 
-    .tt {
-      display: none;
-      position: absolute;
-      background: @dodger-blue;
-      top: 18/14em;
-      left: 4.5em;
-      .border-radius(4px);
-      padding: 3/14em 6/14em 4/14em;
-      color: @white;
-      text-shadow: none;
-      text-transform: uppercase;
-      white-space: nowrap;
-      line-height: 1em;
-      z-index: 2;
-    }
+        li:last-child a {
+            .border-radius(0 0 8px 0);
+        }
 
-    .tt i {
-      opacity: 1;
-      color: @dodger-blue;
-      position: absolute;
-      left: -8/14em;
-      top: 4/14em;
-      font-size: 14/14em;
-      line-height: 1em;
-    }
+        .tt {
+            display: none;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
 
-    .tt span {
-      font-size: 12/14em;
-      line-height: 1em;
+        a:hover .tt {
+            display: block;
+        }
     }
-
-    a:hover .tt {
-      display: block;
-    }
-  }
 }
 
 /* @end */

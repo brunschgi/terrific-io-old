@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Terrific\Module\Promo;
+namespace Terrific\Module\Sidebar;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class TerrificModulePromo extends Bundle
+class TerrificModuleSidebar extends Bundle
 {
 }

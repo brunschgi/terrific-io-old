@@ -12,9 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectRepository extends EntityRepository
 {
-    public function create($project) {
+    public function get($user, $id)
+    {
         $em = $this->getEntityManager();
 
+        $query = $em->createQuery('SELECT p FROM TerrificComposition:Project p WHERE id = :id AND p.user = :user')
+            ->setParammeter('id', $id)
+            ->setParameter('user', $user)
+            ->setMaxResults(1);
+
+        return $query->getResult();
+    }
+
+    public function create($user, $project) {
+        $em = $this->getEntityManager();
+
+        $project->setUser($user);
         // create some default values
         $project->setName('Lab');
 
@@ -29,6 +42,7 @@ class ProjectRepository extends EntityRepository
         if(!$script) {
             $script = new Snippet();
         }
+
         $script->setMode('text/javascript');
         $script->setCode('');
 
@@ -65,10 +79,11 @@ class ProjectRepository extends EntityRepository
         $em->flush();
     }
 
-    public function findPage($page) {
+    public function getPage($user, $page) {
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("SELECT p FROM TerrificComposition:Project p")
+        $query = $em->createQuery('SELECT p FROM TerrificComposition:Project p WHERE p.user = :user')
+            ->setParameter('user', $user)
             ->setFirstResult(($page - 1) * 10)
             ->setMaxResults(10);
 

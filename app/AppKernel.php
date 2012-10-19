@@ -24,7 +24,6 @@ class AppKernel extends Kernel
             new Terrific\CoreBundle\TerrificCoreBundle(),
             new Terrific\ComposerBundle\TerrificComposerBundle(),
             new Terrific\Composition\TerrificComposition(),
-            new FOS\UserBundle\FOSUserBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

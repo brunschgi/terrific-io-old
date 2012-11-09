@@ -45,6 +45,14 @@
     transform: scale(@ratio);
 }
 
+.transform-origin(@origin) {
+    -webkit-transform-origin: @origin;
+    -moz-transform-origin: @origin;
+    -ms-transform-origin: @origin;
+    -o-transform-origin: @origin;
+    transform-origin: @origin;
+}
+
 .vertical-gradient(@startColor: #555, @endColor: #333) {
   background-color: mix(@startColor, @endColor, 60%);
   background-image: -moz-linear-gradient(top, @startColor, @endColor); // FF 3.6+

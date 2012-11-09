@@ -5,12 +5,13 @@
     window.ModuleRouter = Backbone.Router.extend({
 
         routes: {
-            'module/list/:type/:page' : 'list',
+            // 'module/list/:type/:page' : 'list',
             'module/create/:id' : 'create',
-            'module/edit/:id' : 'edit',
-            'module/view/:id' : 'view'
+            'module/edit/:id' : 'edit'
+            // 'module/view/:id' : 'view'
         },
 
+        /*
         list: function(type, page) {
             // clear recent terrific application
             delete window.application;
@@ -38,6 +39,7 @@
                 }
             });
         },
+        */
 
         create: function(id) {
             // validation
@@ -88,8 +90,9 @@
                     console.error('an error occured during loading the module');
                 }
             });
-        },
+        }
 
+        /*
         view: function(id) {
             // clear recent terrific application
             delete window.application;
@@ -115,5 +118,6 @@
                 }
             });
         }
+        */
     });
 })(Tc.$);

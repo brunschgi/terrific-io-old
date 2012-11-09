@@ -14,16 +14,17 @@
     <div class="mod mod-editor" data-type="markup" data-connectors="1"></div>
     <div class="mod mod-editor" data-type="style" data-connectors="1"></div>
     <div class="mod mod-editor" data-type="script" data-connectors="1"></div>
-
-    <iframe allowtransparency="true" frameborder="0" scrolling="no" class="mod mod-preview" data-connectors="1"></iframe>
+    <div class="mod mod-preview" data-connectors="1"><iframe allowtransparency="true" frameborder="0" scrolling="no"></iframe></div>
 </script>
 
+
+<!--
 <script id="tpl-module-view" type="text/x-dot-template">
     <div class="mod mod-toolbar" data-connectors="1"></div>
     <div class="mod mod-editor" data-readonly="true" data-type="markup" data-connectors="1"></div>
     <div class="mod mod-editor" data-readonly="true" data-type="style" data-connectors="1"></div>
     <div class="mod mod-editor" data-readonly="true" data-type="script" data-connectors="1"></div>
-    <iframe allowtransparency="true" frameborder="0" scrolling="no" class="mod mod-preview" data-connectors="1"></iframe>
+    <iframe src="{{= it.baseurl }}/api/module/render/{{= module.id }}"  allowtransparency="true" frameborder="0" scrolling="no" class="mod mod-preview" data-connectors="1"></iframe>
 </script>
 
 <script id="tpl-module-list" type="text/x-dot-template">
@@ -37,12 +38,11 @@
     </ul>
 </script>
 
-
 <script id="tpl-project-edit" type="text/x-dot-template">
     <div class="mod mod-sidebar" data-connectors="1">Sidebar</div>
     <div class="mod mod-projects" data-connectors="1">Projects</div>
 </script>
-
+-->
 
 {% endraw %}
 

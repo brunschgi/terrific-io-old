@@ -6,43 +6,75 @@
 
         routes: {
             'project/list' : 'list',
-            'project/list/:page' : 'list',
-            'project/create' : 'create',
-            'project/edit/:id' : 'edit',
-            'project/view/:id' : 'view'
+            'project/:id/*name' : 'view',
+            'project/create' : 'create'
         },
 
-        list: function(page) {
+        list: function() {
+            // init model
+            var model = window.model = window.model || {};
+            model.projects = new window.Projects();
+
+            // init application
+            var application = new Tc.Application($('html'), $.extend({}, Tc.Config, { 'model' : model }));
+
+            // create DOM
+            var tpl = doT.template($('#tpl-project-list').text());
+            var $container = $('.container');
+            var $view = $(tpl());
+            $container.html($view);
+
+            // terrific bootstrap
+            application.registerModules($container);
+            application.start();
+
+            // fill model
+            model.projects.fetch();
+        },
+
+        view: function(id, name) {
             // validation
-            if(!page) {
-                page = 1;
+            id = parseInt(id, 10);
+
+            // init model
+            var initProjects = false;
+            var model = window.model = window.model || {};
+            model.project = new window.Project({ id : id });
+
+            if(!model['projects']) {
+                initProjects = true;
+                model.projects = new window.Projects();
             }
 
-            // clear recent terrific application
-            delete window.application;
+            // init application
+            var application = new Tc.Application($('html'), $.extend({}, Tc.Config, { 'model' : model }));
 
-            // model stuff
-            var model = {};
-            model.projects = new window.Projects();
-            model.projects.url += '/' + page;
+            // create DOM
+            var tpl = doT.template($('#tpl-project-list').text());
+            var $container = $('.container');
+            var $view = $(tpl());
+            $container.html($view);
 
-            model.projects.fetch({
-                success: function(data) {
-                    // create DOM
-                    var view = doT.template($('#tpl-project-list').text());
-                    var $page = $('.container');
-                    data.baseurl = Tc.Config.baseurl;
-                    $page.html(view(data));
+            // terrific bootstrap
+            application.registerModules($container);
+            application.start();
 
-                    // terrific bootstrap
-                    var application = window.application = new Tc.Application($page, $.extend({}, Tc.Config, { 'model' : model }));
-                    application.registerModules();
-                    application.start();
-                },
-                error: function(response) {
-                    console.error('an error occured during loading the projects');
-                }
-            });
+            // fill model
+            if(initProjects) {
+                model.projects.fetch({ silent: true, success : function() {
+                    model.projects.get(id).set({ selected : true }, { silent : true });
+                    model.projects.trigger('reset');
+                }});
+            }
+            else {
+               model.projects.each(function(project) {
+                   project.set({ selected : false }, { silent : true });
+               });
+               model.projects.get(id).set({ selected : true }, { silent : true });
+               model.projects.trigger('reset');
+            }
+
+            model.project.fetch();
         },
 
         create: function() {
@@ -52,67 +84,15 @@
             delete window.application;
 
             // model stuff
-            var model = {};
-            model.module = new window.Project();
+            var model = window.model = {};
+            model.project = new window.Project();
 
-            model.module.save({}, {
+            model.project.save({}, {
                 success: function(data) {
-                   self.navigate('project/edit/' + data.id, { trigger : true });
+                   self.navigate('project/' + data.id + '/new', { trigger : true, replace: true });
                 },
                 error: function(response) {
                    console.error('an error occured during creating the project');
-                }
-            });
-        },
-
-        edit: function(id) {
-            // clear recent terrific application
-            delete window.application;
-
-            // model stuff
-            var model = {};
-            model.module = new window.Project({ id : id });
-
-            model.module.fetch({
-                success: function() {
-                    // create DOM
-                    var view = doT.template($('#tpl-project-edit').text());
-                    var $page = $('.container');
-                    $page.html(view());
-
-                    // terrific bootstrap
-                    var application = window.application = new Tc.Application($page, $.extend({}, Tc.Config, { 'model' : model }));
-                    application.registerModules();
-                    application.start();
-                },
-                error: function(response) {
-                    console.error('an error occured during loading the project');
-                }
-            });
-        },
-
-        view: function(id) {
-            // clear recent terrific application
-            delete window.application;
-
-            // model stuff
-            var model = {};
-            model.project = new window.Project({ id : id });
-
-            model.project.fetch({
-                success: function() {
-                    // create DOM
-                    var view = doT.template($('#tpl-project-view').text());
-                    var $page = $('.container');
-                    $page.html(view());
-
-                    // terrific bootstrap
-                    var application = window.application = new Tc.Application($page, $.extend({}, Tc.Config, { 'model' : model }));
-                    application.registerModules();
-                    application.start();
-                },
-                error: function(response) {
-                    console.error('an error occured during loading the project');
                 }
             });
         }

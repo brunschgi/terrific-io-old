@@ -7,18 +7,15 @@
         urlRoot: Tc.Config.baseurl + '/api/module',
 
         parse: function(response) {
-            // handle specials (init if necessary)
-            if(!this.markup) {
-                response.markup = new window.Snippet(response.markup);
-            }
+            // handle nested models
+            this.set('markup', new window.Snippet(response.markup));
+            delete response.markup;
 
-            if(!this.style) {
-                response.style = new window.Snippet(response.style);
-            }
+            this.set('style', new window.Snippet(response.style));
+            delete response.style;
 
-            if(!this.script) {
-                response.script = new window.Snippet(response.script);
-            }
+            this.set('script', new window.Snippet(response.script));
+            delete response.script;
 
             return response;
         },

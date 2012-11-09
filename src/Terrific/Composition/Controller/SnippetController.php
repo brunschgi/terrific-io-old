@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/data/snippet")
+ * @Route("/api/snippet")
  */
 class SnippetController extends Controller
 {

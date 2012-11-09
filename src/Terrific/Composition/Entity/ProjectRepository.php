@@ -12,44 +12,37 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectRepository extends EntityRepository
 {
+
+    public function getAll($user) {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery('SELECT p FROM TerrificComposition:Project p WHERE p.user = :user')
+            ->setParameter('user', $user);
+
+        return $query->getResult();
+    }
+
     public function get($user, $id)
     {
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery('SELECT p FROM TerrificComposition:Project p WHERE id = :id AND p.user = :user')
-            ->setParammeter('id', $id)
+        $query = $em->createQuery('SELECT p FROM TerrificComposition:Project p WHERE p.id = :id AND p.user = :user')
+            ->setParameter('id', $id)
             ->setParameter('user', $user)
             ->setMaxResults(1);
 
-        return $query->getResult();
+        $result = $query->getResult();
+        return $result[0];
     }
 
     public function create($user, $project) {
         $em = $this->getEntityManager();
 
-        $project->setUser($user);
         // create some default values
+        $project->setUser($user);
         $project->setName('Lab');
 
-        $style = $project->getStyle();
-        if(!$style) {
-            $style = new Snippet();
-        }
-        $style->setMode('text/css');
-        $style->setCode('');
-
-        $script = $project->getScript();
-        if(!$script) {
-            $script = new Snippet();
-        }
-
-        $script->setMode('text/javascript');
-        $script->setCode('');
-
         // persist it
-        $em->persist($style);
-        $em->persist($script);
-
         $em->persist($project);
         $em->flush();
 
@@ -59,12 +52,7 @@ class ProjectRepository extends EntityRepository
     public function update($id, $tmpProject) {
         $em = $this->getEntityManager();
 
-        $project = $this->find($id);
-
-        $project->setName($tmpProject->getName());
-        $project->setStyle($tmpProject->getStyle());
-        $project->setScript($tmpProject->getScript());
-
+        $project = $this->findOneById($id);
         $em->flush();
 
         return $project;
@@ -73,20 +61,9 @@ class ProjectRepository extends EntityRepository
     public function delete($id) {
         $em = $this->getEntityManager();
 
-        $project = $this->find($id);
+        $project = $this->findOneById($id);
 
         $em->remove($project);
         $em->flush();
-    }
-
-    public function getPage($user, $page) {
-        $em = $this->getEntityManager();
-
-        $query = $em->createQuery('SELECT p FROM TerrificComposition:Project p WHERE p.user = :user')
-            ->setParameter('user', $user)
-            ->setFirstResult(($page - 1) * 10)
-            ->setMaxResults(10);
-
-        return $query->getResult();
     }
 }

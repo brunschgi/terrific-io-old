@@ -16,7 +16,7 @@
         li {
             position: relative;
             padding-left: 8px;
-
+            border-top: 1px dashed @white;
         }
 
         li:first-child {
@@ -29,12 +29,13 @@
             padding: 10/14em;
             color: @friar-gray;
             text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8), /* shadow */ 0 1px 0 rgba(255, 255, 255, 0.5); /* highlight */
+        }
 
-            i {
-                opacity: 0.7;
-                font-size: 32/14em;
-                line-height: 32/32em;
-            }
+        i {
+            opacity: 0.7;
+            font-size: 32/14em;
+            line-height: 32/32em;
+            vertical-align: bottom;
         }
 
         a:hover {
@@ -59,6 +60,10 @@
             display: none;
             text-transform: uppercase;
             white-space: nowrap;
+
+            i {
+                font-size: 1em;
+            }
         }
 
         a:hover .tt {

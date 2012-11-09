@@ -1,0 +1,40 @@
+{% raw %}
+<script id="mod-module-browser" type="text/x-dot-template">
+    {{ var modules = it.project.modules.toJSON(); }}
+    <ul>
+        <li>
+            <a class="create" href="#module/create/{{= it.project.id }}">Create</a>
+        </li>
+        {{~ modules :module:index }}
+        <li class="module">
+            <div class="wrap">
+                <iframe src="{{= it.baseurl }}/api/module/render/{{= module.id }}"  allowtransparency="true" frameborder="0" scrolling="no" />
+                <a class="cover" href="#module/edit/{{= module.id }}">
+                    <h3>{{= module.title }}</h3>
+                    <p>{{= module.description }}</p>
+                </a>
+            </div>
+            <div class="stats">
+                <ul>
+                    <li><i class="icon-like"></i>^5</li>
+                    <li><i class="icon-chrome tested"></i></li>
+                    <li><i class="icon-firefox tested"></i></li>
+                    <li><i class="icon-opera"></i></li>
+                    <li><i class="icon-IE"></i></li>
+                </ul>
+            </div>
+        </li>
+        {{~}}
+    </ul>
+</script>
+
+
+<script id="mod-module-browser-initial" type="text/x-dot-template">
+    <h3>Create or Choose a Project</h3>
+    <ul>
+        <li>
+            <a class="createproject" href="#project/create">Create</a>
+        </li>
+    </ul>
+</script>
+{% endraw %}

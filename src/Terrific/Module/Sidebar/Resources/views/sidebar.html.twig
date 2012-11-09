@@ -1,0 +1,20 @@
+{% raw %}
+<script id="mod-sidebar" type="text/x-dot-template">
+    <h2 class="h2">terrific.io</h2>
+    <h3>Projects <a class="create" href="#project/create"><i class="icon-plus"></i></a></h3>
+    <ul>
+        {{~ it.projects :project }}
+        <li>
+            <a {{= project.selected ? 'class="active"' : 'test' }} data-id="{{= project.id }}" href="#{{= project.id + '/' + project.name.toLowerCase() }}">
+                {{? project.name == 'Lab' }}
+                    <i class="icon-lab"></i>
+                {{??}}
+                    <i class="icon-empty"></i>
+                {{?}}
+                <span>{{= project.name }}</span>
+            </a>
+        </li>
+        {{~}}
+    </ul>
+</script>
+{% endraw %}

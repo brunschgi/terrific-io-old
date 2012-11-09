@@ -25,8 +25,9 @@ class ModuleController extends Controller
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
         $module = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Module', 'json');
-        $module = $repo->create($module);
+        $module = $repo->create($this->getUser(), $module);
 
+        $serializer->setGroups(array('module_details'));
         return new Response($serializer->serialize($module, 'json'));
     }
 
@@ -41,6 +42,7 @@ class ModuleController extends Controller
 
         $modules = $repo->findPage($type, $page);
 
+        $serializer->setGroups(array('module_list'));
         return new Response($serializer->serialize($modules, 'json'));
     }
 
@@ -54,12 +56,13 @@ class ModuleController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
-        $module = $repo->find($id);
+        $module = $repo->findOneById($id);
 
         if(!$module) {
             throw new \Exception('the module with the id "'.$id.'" could not be found');
         }
 
+        $serializer->setGroups(array('module_details'));
         return new Response($serializer->serialize($module, 'json'));
     }
 

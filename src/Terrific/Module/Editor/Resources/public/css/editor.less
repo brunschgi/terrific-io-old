@@ -12,10 +12,17 @@
 
 @media screen {
     .mod-editor {
-      margin: 20/16em 0;
-      font-size: 16px;
-      line-height: 24/16em;
-      text-shadow: white 0px 1px 0px;
+      margin: 20/16em 0 20/16em 100/16em;
+
+      .editor {
+          font-size: 14px;
+          line-height: 18/14em;
+          text-shadow: white 0px 1px 0px;
+      }
+
+      .editor:selection {
+          background: blue;
+      }
     }
 }
 /* @end */

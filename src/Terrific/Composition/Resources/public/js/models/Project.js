@@ -4,20 +4,19 @@
 
     window.Project = Backbone.Model.extend({
 
-        urlRoot: Tc.Config.baseurl + '/api/project',
+        urlRoot:Tc.Config.baseurl + '/api/project',
 
-        parse: function(response) {
-            // handle specials (init if necessary)
-            if(!this.markup) {
-                response.markup = new window.Snippet(response.markup);
-            }
+        defaults: {
+            'selected':false
+        },
 
-            if(!this.style) {
-                response.style = new window.Snippet(response.style);
-            }
-
-            if(!this.modules) {
-                response.modules = [];
+        parse:function (response) {
+            // handle nested models
+            if(response.modules) {
+                var modules = new window.Modules();
+                modules.add(response.modules);
+                this.set('modules', modules);
+                delete response.modules;
             }
 
             return response;

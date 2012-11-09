@@ -27,20 +27,22 @@ class ProjectController extends Controller
         $project = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Project', 'json');
         $project = $repo->create($this->getUser(), $project);
 
+        $serializer->setGroups(array('project_details'));
         return new Response($serializer->serialize($project, 'json'));
     }
 
     /**
-     * @Route("/list/{page}", defaults={"_format"="json"}, name="project_list")
+     * @Route("/list", defaults={"_format"="json"}, name="project_list")
      * @Method({"GET"})
      */
-    public function listAction($page)
+    public function listAction()
     {
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Project');
 
-        $projects = $repo->getPage($this->getUser(), $page);
+        $projects = $repo->getAll($this->getUser());
 
+        $serializer->setGroups(array('project_list'));
         return new Response($serializer->serialize($projects, 'json'));
     }
 
@@ -60,6 +62,7 @@ class ProjectController extends Controller
             throw new \Exception('the project with the id "'.$id.'" could not be found');
         }
 
+        $serializer->setGroups(array('project_details'));
         return new Response($serializer->serialize($project, 'json'));
     }
 

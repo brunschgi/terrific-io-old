@@ -1,16 +1,69 @@
+@import "../../../../../../Terrific/Composition/Resources/public/css/import.less";
+
 /* @group module: sidebar */
-
-@media all {
-
-}
-
-@media print {
-
-}
 
 @media screen {
     .mod-sidebar {
+        position: fixed;
+        width: 250px;
+        height: 100%;
+        color: @white;
+        overflow: auto;
+        padding: 10px;
+        background: @friar-gray;
+        box-shadow: 0 1px 0 rgba(183, 176, 170, 0.8), /* shadow */ 0 -1px 0 @white; /* highlight */
+        z-index: 1;
 
+        .create {
+            text-decoration: none;
+            color: @white;
+            float: right;
+            font-size: 18/14em;
+
+            i {
+                padding-right: 3px;
+            }
+        }
+
+        li {
+            padding: 2px 0;
+
+            a {
+                display: block;
+                text-decoration: none;
+                color: @white;
+                padding: 5px 10px;
+                .border-radius(3px);
+
+                i {
+                    padding-right: 3px;
+                }
+            }
+
+            a:hover {
+                background: @wafer;
+                color: @friar-gray;
+            }
+
+            a:active, a.active {
+                background: @white;
+                color: @dodger-blue;
+            }
+        }
+
+        .h2 {
+            text-align: center;
+            border-bottom: 1px dashed @tide;
+            margin-bottom: 0.5em;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6); /* shadow */
+        }
+
+        h3 {
+            text-transform: uppercase;
+            padding-left: 10px;
+            padding-bottom: 10/14em;
+        }
     }
 }
+
 /* @end */

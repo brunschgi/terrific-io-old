@@ -4,6 +4,11 @@
 
 {% block body %}
 {% raw %}
+<script id="tpl-project-list" type="text/x-dot-template">
+    <div class="mod mod-sidebar" data-connectors="1"></div>
+    <div class="mod mod-module-browser" data-connectors="1"></div>
+</script>
+
 <script id="tpl-module-edit" type="text/x-dot-template">
     <div class="mod mod-toolbar" data-connectors="1"></div>
     <div class="mod mod-editor" data-type="markup" data-connectors="1"></div>
@@ -18,7 +23,6 @@
     <div class="mod mod-editor" data-readonly="true" data-type="markup" data-connectors="1"></div>
     <div class="mod mod-editor" data-readonly="true" data-type="style" data-connectors="1"></div>
     <div class="mod mod-editor" data-readonly="true" data-type="script" data-connectors="1"></div>
-
     <iframe allowtransparency="true" frameborder="0" scrolling="no" class="mod mod-preview" data-connectors="1"></iframe>
 </script>
 
@@ -39,16 +43,7 @@
     <div class="mod mod-projects" data-connectors="1">Projects</div>
 </script>
 
-<script id="tpl-project-list" type="text/x-dot-template">
-    <div class="mod mod-sidebar" data-connectors="1"></div>
-    <ul>
-        {{~it.models : model}}
-        <li>
-            <h3>{{= model.get('name') }}</h3>
-        </li>
-        {{~}}
-    </ul>
-</script>
+
 {% endraw %}
 
 {% endblock %}

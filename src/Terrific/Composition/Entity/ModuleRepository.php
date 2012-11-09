@@ -14,33 +14,41 @@ use Terrific\Composition\Entity\Module;
  */
 class ModuleRepository extends EntityRepository
 {
-    public function create($module) {
+    public function create($user, $module) {
         $em = $this->getEntityManager();
+
+        // check whether the user is authorized to create a new module for the given project
+        $projectRepo = $this->getEntityManager()->getRepository('TerrificComposition:Project');
+        $project = $projectRepo->findOneById($module->getProject());
 
         // create some default values
         $module->setTitle('My new experiment');
         $module->setDescription('Psst… please give away a secret about your experiment');
+        $module->setProject($project);
 
         $markup = $module->getMarkup();
         if(!$markup) {
             $markup = new Snippet();
+            $markup->setMode('text/html');
+            $markup->setCode('<div class="mod mod-draft">Test</div>');
+            $module->setMarkup($markup);
         }
-        $markup->setMode('text/html');
-        $markup->setCode('<div class="mod mod-draft">Test</div>');
 
         $style = $module->getStyle();
         if(!$style) {
             $style = new Snippet();
+            $style->setMode('text/css');
+            $style->setCode('.mod-draft { color: navy }');
+            $module->setStyle($style);
         }
-        $style->setMode('text/css');
-        $style->setCode('.mod-draft { color: navy }');
 
         $script = $module->getScript();
         if(!$script) {
             $script = new Snippet();
+            $script->setMode('text/javascript');
+            $script->setCode('');
+            $module->setScript($script);
         }
-        $script->setMode('text/javascript');
-        $script->setCode('');
 
         // persist it
         $em->persist($markup);
@@ -56,7 +64,7 @@ class ModuleRepository extends EntityRepository
     public function update($id, $tmpModule) {
         $em = $this->getEntityManager();
 
-        $module = $this->find($id);
+        $module = $this->findOneById($id);
 
         $module->setTitle($tmpModule->getTitle());
         $module->setDescription($tmpModule->getDescription());
@@ -72,7 +80,7 @@ class ModuleRepository extends EntityRepository
     public function delete($id) {
         $em = $this->getEntityManager();
 
-        $module = $this->find($id);
+        $module = $this->findOneById($id);
 
         $em->remove($module);
         $em->flush();

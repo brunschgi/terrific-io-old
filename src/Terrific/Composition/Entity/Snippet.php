@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToOne;
 use JMS\SerializerBundle\Annotation\ReadOnly;
 use JMS\SerializerBundle\Annotation\Type;
+use JMS\SerializerBundle\Annotation\Groups;
 
 /**
  * Terrific\Composition\Entity\Snippet
@@ -22,6 +23,7 @@ class Snippet
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ReadOnly
+     * @Groups({"module_details"})
      */
     private $id;
 
@@ -30,6 +32,7 @@ class Snippet
      *
      * @ORM\Column(name="code", type="text")
      * @Type("string")
+     * @Groups({"module_details"})
      */
     private $code;
 
@@ -38,6 +41,7 @@ class Snippet
      *
      * @ORM\Column(name="mode", type="string", length=255)
      * @Type("string")
+     * @Groups({"module_details"})
      */
     private $mode;
 

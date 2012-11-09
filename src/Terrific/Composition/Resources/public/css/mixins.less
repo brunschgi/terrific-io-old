@@ -36,6 +36,14 @@
   -o-transition: @transition;
   transition: @transition;
 }
+// Transformations
+.scale(@ratio) {
+    -webkit-transform: scale(@ratio);
+    -moz-transform: scale(@ratio);
+    -ms-transform: scale(@ratio);
+    -o-transform: scale(@ratio);
+    transform: scale(@ratio);
+}
 
 .vertical-gradient(@startColor: #555, @endColor: #333) {
   background-color: mix(@startColor, @endColor, 60%);

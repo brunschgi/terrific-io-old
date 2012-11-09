@@ -11,6 +11,6 @@
 
 
 // global error handler
-window.onerror = function (msg, url, line) {
+/*window.onerror = function (msg, url, line) {
     console.log(msg);
-};
+};*/

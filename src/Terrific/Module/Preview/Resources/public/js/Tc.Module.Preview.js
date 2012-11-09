@@ -48,6 +48,7 @@
             head.appendChild(requirejs);
 
             var render = function() {
+                console.log('render');
                 // style -> including all external resources
                 style.innerHTML = '<style>body { margin: 0; } ' + model.get('style').get('code') + '</style>';
 

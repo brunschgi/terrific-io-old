@@ -47,3 +47,27 @@
 .icon-cloud:before {
     content: "\27";
 }
+.icon-lab:before {
+    content: "\28";
+}
+.icon-plus:before {
+    content: "\2a";
+}
+.icon-safari:before {
+    content: "\2b";
+}
+.icon-opera:before {
+    content: "\2c";
+}
+.icon-IE:before {
+    content: "\2d";
+}
+.icon-firefox:before {
+    content: "\2e";
+}
+.icon-chrome:before {
+    content: "\2f";
+}
+.icon-like:before {
+    content: "\30";
+}

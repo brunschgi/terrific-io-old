@@ -5,6 +5,9 @@ namespace Terrific\Composition\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\SerializerBundle\Annotation\ReadOnly;
 use JMS\SerializerBundle\Annotation\Type;
+use JMS\SerializerBundle\Annotation\Exclude;
+use JMS\SerializerBundle\Annotation\Groups;
+use JMS\SerializerBundle\Annotation\Accessor;
 
 /**
  * Terrific\Composition\Entity\Module
@@ -20,6 +23,7 @@ class Module
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"project_list", "project_details", "module_list", "module_details"})
      * @ReadOnly
      */
     private $id;
@@ -29,6 +33,7 @@ class Module
      *
      * @ORM\Column(name="title", type="string", length=255)
      * @Type("string")
+     * @Groups({"project_list", "project_details", "module_list", "module_details"})
      */
     private $title;
 
@@ -37,30 +42,36 @@ class Module
      *
      * @ORM\Column(name="description", type="text")
      * @Type("string")
+     * @Groups({"project_list", "project_details", "module_list", "module_details"})
      */
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Project", inversedBy="modules")
+     * @ORM\ManyToOne(targetEntity="Project")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     * @Type("integer")
+     * @Groups({"module_details"})
      */
     private $project;
 
     /**
      * @ORM\OneToOne(targetEntity="Snippet")
      * @Type("Terrific\Composition\Entity\Snippet")
+     * @Groups({"module_details"})
      */
     private $markup;
 
     /**
      * @ORM\OneToOne(targetEntity="Snippet")
      * @Type("Terrific\Composition\Entity\Snippet")
+     * @Groups({"module_details"})
      */
     private $style;
 
     /**
      * @ORM\OneToOne(targetEntity="Snippet")
      * @Type("Terrific\Composition\Entity\Snippet")
+     * @Groups({"module_details"})
      */
     private $script;
 
@@ -183,14 +194,14 @@ class Module
     public function setProject(\Terrific\Composition\Entity\Project $project = null)
     {
         $this->project = $project;
-    
+
         return $this;
     }
 
     /**
      * Get project
      *
-     * @return Terrific\Composition\Entity\Project 
+     * @return Terrific\Composition\Entity\Project
      */
     public function getProject()
     {

@@ -6,7 +6,7 @@
 
         routes: {
             'module/list/:type/:page' : 'list',
-            'module/create' : 'create',
+            'module/create/:id' : 'create',
             'module/edit/:id' : 'edit',
             'module/view/:id' : 'view'
         },
@@ -39,19 +39,24 @@
             });
         },
 
-        create: function() {
+        create: function(id) {
+            // validation
+            if(!id) {
+                console.error('the module needs to be added to an existing project – please specifiy the project id')
+            }
+
             var self = this;
 
             // clear recent terrific application
             delete window.application;
 
             // model stuff
-            var model = {};
+            var model = window.model = window.model || {};
             model.module = new window.Module();
 
-            model.module.save({}, {
+            model.module.save({ project : id }, {
                 success: function(data) {
-                   self.navigate('module/edit/' + data.id, { trigger : true });
+                   self.navigate('module/edit/' + data.id, { trigger : true, replace : true });
                 },
                 error: function(response) {
                    console.error('an error occured during creating the module');

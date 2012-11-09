@@ -14,6 +14,7 @@
         '@TerrificComposition/Resources/public/css/libraries/codemirror/codemirror.css'
         '@TerrificComposition/Resources/public/css/libraries/codemirror/theme/solarized.css'
         '@TerrificComposition/Resources/public/css/font/terrificio.css'
+        '@TerrificComposition/Resources/public/css/font/pacifico.css'
         '@TerrificComposition/Resources/public/css/elements.less'
         output="css/compiled/project.css"
     %}
@@ -37,6 +38,8 @@
 {% include 'TerrificModulePreview::preview.html.twig' %}
 {% include 'TerrificModuleInspiration::inspiration.html.twig' %}
 {% include 'TerrificModuleToolbar::toolbar.html.twig' %}
+{% include 'TerrificModuleSidebar::sidebar.html.twig' %}
+{% include 'TerrificModuleModuleBrowser::modulebrowser.html.twig' %}
 
 {% block composition %}
 <div class="container">

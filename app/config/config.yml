@@ -30,12 +30,16 @@ assetic:
     bundles: [TerrificComposition,HWIOAuthBundle]
     # java: /usr/bin/java
     filters:
+        less:
+          node: /usr/local/bin/node
+          node_paths: [/usr/local/lib/node, /usr/local/lib/node_modules]
+          apply_to: "\.less$"
         cssrewrite: ~
         terrificrewrite:
             resource: %kernel.root_dir%/../vendor/brunschgi/terrific-core-bundle/Terrific/CoreBundle/Resources/config/terrificrewrite.xml
-        lessphp:
-            apply_to: "\.less$"
-            file:   %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
+        # lessphp:
+        #     apply_to: "\.less$"
+        #     file:   %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
         # closure:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:

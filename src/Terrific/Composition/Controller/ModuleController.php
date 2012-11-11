@@ -77,13 +77,33 @@ class ModuleController extends Controller
     }
 
     /**
-     * @Route("/render/{id}", requirements={"id"="\d+"}, name="module_render")
-     * @Template()
+     * @Route("/{id}", defaults={"_format"="json"}, name="module_update")
+     * @Method({"PUT"})
      */
-    public function renderAction($id) {
+    public function shareAction(Request $request, $id)
+    {
+        $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
-        $module = $repo->find($id);
+        $module = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Module', 'json');
+        $module = $repo->update($id, $module);
+
+        return new Response($serializer->serialize($module, 'json'));
+    }
+
+    /**
+     * @Route("/render/{id}/{type}", requirements={"id"="\d+", "type"="fresh|compiled"}, defaults={"type"="compiled"} , name="module_render")
+     * @Template()
+     */
+    public function renderAction($id, $type) {
+        $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
+
+        if($type === "compiled") {
+            $module = $repo->find($id);
+        }
+        else {
+            $module = $repo->findFresh($id);
+        }
 
         if(!$module) {
             throw new \Exception('the module with the id "'.$id.'" could not be found');

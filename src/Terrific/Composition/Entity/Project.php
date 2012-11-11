@@ -32,7 +32,7 @@ class Project
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @Type("string")
-     * @Groups({"project_list", "project_details"})
+     * @Groups({"module_details", "project_list", "project_details"})
      */
     private $name;
 

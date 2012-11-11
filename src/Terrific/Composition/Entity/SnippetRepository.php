@@ -40,7 +40,7 @@ class SnippetRepository extends EntityRepository
     public function delete($id) {
         $em = $this->getEntityManager();
 
-        $snippet = $this->find($id);
+        $snippet = $this->findOneById($id);
 
         $em->remove($snippet);
         $em->flush();

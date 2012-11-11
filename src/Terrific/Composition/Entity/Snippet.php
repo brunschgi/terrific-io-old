@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\OneToOne;
 use JMS\SerializerBundle\Annotation\ReadOnly;
 use JMS\SerializerBundle\Annotation\Type;
 use JMS\SerializerBundle\Annotation\Groups;
+use JMS\SerializerBundle\Annotation\Exclude;
 
 /**
  * Terrific\Composition\Entity\Snippet
@@ -30,11 +31,24 @@ class Snippet
     /**
      * @var text $code
      *
+     * Contains the source code.
+     *
      * @ORM\Column(name="code", type="text")
      * @Type("string")
      * @Groups({"module_details"})
      */
     private $code;
+
+    /**
+     * @var text $compiled
+     *
+     * Contains the compiled code (ie. compiled LESS)
+     *
+     * @ORM\Column(name="compiled", type="text")
+     * @Type("string")
+     * @Exclude
+     */
+    private $compiled;
 
     /**
      * @var string $mode
@@ -44,7 +58,6 @@ class Snippet
      * @Groups({"module_details"})
      */
     private $mode;
-
 
     /**
      * Get id
@@ -94,5 +107,28 @@ class Snippet
     public function getMode()
     {
         return $this->mode;
+    }
+
+    /**
+     * Set compiled
+     *
+     * @param string $compiled
+     * @return Snippet
+     */
+    public function setCompiled($compiled)
+    {
+        $this->compiled = $compiled;
+    
+        return $this;
+    }
+
+    /**
+     * Get compiled
+     *
+     * @return string 
+     */
+    public function getCompiled()
+    {
+        return $this->compiled;
     }
 }

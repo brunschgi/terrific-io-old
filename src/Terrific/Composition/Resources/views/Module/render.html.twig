@@ -3,13 +3,13 @@
 <head>
     <title>{{ module.title }}, preview</title>
     <style>
-        {{ module.style.code | raw }}
+        {{ module.style.compiled | raw }}
     </style>
-    <script>
-        {{ module.script.code | raw }}
-    </script>
 </head>
 <body>
-{{ module.markup.code | raw }}
+{{ module.markup.compiled | raw }}
+<script>
+    {{ module.script.compiled | raw }}
+</script>
 </body>
 </html>

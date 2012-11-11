@@ -2,6 +2,9 @@
 <script id="mod-toolbar" type="text/x-dot-template">
 <ul>
     <li>
+        <a href="#project/{{= it.module.project.id }}/{{= it.module.project.name.toLowerCase() }}" class="back"><i class="icon-back"></i><div class="tt"><i class="icon-cloud"></i><span>Back To Project</span></div></a>
+    </li>
+    <li class="separated">
         <a href="#markup"><i class="icon-html5"></i><div class="tt"><i class="icon-cloud"></i><span>Markup</span></div></a>
     </li>
     <li>
@@ -12,6 +15,9 @@
     </li>
     <li>
         <a href="#preview"><i class="icon-eye"></i><div class="tt"><i class="icon-cloud"></i><span>Preview</span></div></a>
+    </li>
+    <li class="separated">
+        <a href="#share" class="share"><i class="icon-share"></i><div class="tt"><i class="icon-cloud"></i><span>Share</span></div></a>
     </li>
 </ul>
 </script>

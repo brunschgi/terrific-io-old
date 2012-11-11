@@ -75,20 +75,4 @@ class ProjectController extends Controller
         $this->getDoctrine()->getRepository('TerrificComposition:Project')->delete($this->getUser(), $id);
         return new Response();
     }
-
-    /**
-     * @Route("/render/{id}", requirements={"id"="\d+"}, name="project_render")
-     * @Template()
-     */
-    public function renderAction($id) {
-        $repo = $this->getDoctrine()->getRepository('TerrificComposition:Project');
-
-        $project = $repo->get($this->getUser(), $id);
-
-        if(!$project) {
-            throw new \Exception('the project with the id "'.$id.'" could not be found');
-        }
-
-        return array('project' => $project);
-    }
 }

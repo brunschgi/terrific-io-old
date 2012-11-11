@@ -24,7 +24,7 @@ assetic:
         #    apply_to: "\.css$"
         #    file:   %kernel.root_dir%/../vendor/cssmin/cssmin.php
 
-        jsmin:
-            apply_to: "\.js"
-            file:   %kernel.root_dir%/../vendor/jsmin/JSMin.php
-            resource: %kernel.root_dir%/../vendor/bundles/Terrific/CoreBundle/Resources/config/jsmin.xml
+        #jsmin:
+        #    apply_to: "\.js"
+        #    file:   %kernel.root_dir%/../vendor/jsmin/JSMin.php
+        #    resource: %kernel.root_dir%/../vendor/bundles/Terrific/CoreBundle/Resources/config/jsmin.xml

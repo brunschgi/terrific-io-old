@@ -68,9 +68,29 @@ class ModuleRepository extends EntityRepository
 
         $module->setTitle($tmpModule->getTitle());
         $module->setDescription($tmpModule->getDescription());
-        $module->setMarkup($tmpModule->getMarkup());
-        $module->setStyle($tmpModule->getStyle());
-        $module->setScript($tmpModule->getScript());
+
+        $tmpMarkup = $tmpModule->getMarkup();
+        $markup = $module->getMarkup();
+        $markup->setCode($tmpMarkup->getCode());
+        $markup->setMode($tmpMarkup->getMode());
+        $markup->setCompiled($tmpMarkup->getCode());
+        $module->setMarkup($markup);
+
+        $tmpStyle = $tmpModule->getStyle();
+        $style = $module->getStyle();
+        $style->setCode($tmpStyle->getCode());
+        $style->setMode($tmpStyle->getMode());
+        // TODO: precompile if necessary
+        $style->setCompiled($tmpStyle->getCode());
+        $module->setStyle($style);
+
+        $tmpScript= $tmpModule->getScript();
+        $script = $module->getScript();
+        $script->setCode($tmpScript->getCode());
+        $script->setMode($tmpScript->getMode());
+        // TODO: precompile if necessary
+        $script->setCompiled($tmpScript->getCode());
+        $module->setScript($script);
 
         $em->flush();
 

@@ -27,8 +27,7 @@
             doc.close();
 
             var head = doc.getElementsByTagName('head')[0],
-                body = doc.getElementsByTagName('body')[0],
-                $body = $(body);
+                body = doc.getElementsByTagName('body')[0];
 
             // because iframe content can not be rendered directly with doT, we need to render it manually
             head.innerHTML = '<style></style>';
@@ -47,14 +46,12 @@
             // start loading
             requirejs.onload = function() {
                 head.appendChild(requireConfig);
-
                 // initial rendering
                 render();
             };
             head.appendChild(requirejs);
 
             var render = function() {
-
                 // style -> including all external resources
                 style.innerHTML = 'body { margin: 0; min-height: 100px; } ' + model.get('style').get('code');
 
@@ -70,9 +67,6 @@
                 moduleScript.appendChild(doc.createTextNode('require(["lib/jquery", "lib/terrific"], function() {' + model.get('script').get('code') + ' });'));
 
                 head.appendChild(moduleScript);
-
-                // set height
-                //$ctx.height($body.outerHeight());
             };
 
             // editor events

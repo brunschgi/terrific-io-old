@@ -17,8 +17,6 @@ use JMS\SerializerBundle\Annotation\Groups;
 class Project
 {
     /**
-     * @var integer $id
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -28,8 +26,6 @@ class Project
     private $id;
 
     /**
-     * @var string $name
-     *
      * @ORM\Column(name="name", type="string", length=255)
      * @Type("string")
      * @Groups({"module_details", "project_list", "project_details"})
@@ -38,7 +34,6 @@ class Project
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * @Exclude
      */
     private $user;

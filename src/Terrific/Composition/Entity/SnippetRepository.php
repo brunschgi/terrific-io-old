@@ -13,21 +13,13 @@ use Terrific\Composition\Entity\Snippet;
  */
 class SnippetRepository extends EntityRepository
 {
-    public function create() {
+    public function update($user, $id, $tmpSnippet) {
         $em = $this->getEntityManager();
 
-        $snippet = new Snippet();
+        // check if the snippet belongs to the current user
+        $this->checkByUserAndId($user, $id);
 
-        $em->persist($snippet);
-        $em->flush();
-
-        return $snippet;
-    }
-
-    public function update($id, $tmpSnippet) {
-        $em = $this->getEntityManager();
-
-        $snippet = $this->find($id);
+        $snippet = $this->findOneById($id);
 
         $snippet->setCode($tmpSnippet->getCode());
         $snippet->setMode($tmpSnippet->getMode());
@@ -37,14 +29,29 @@ class SnippetRepository extends EntityRepository
         return $snippet;
     }
 
-    public function delete($id) {
+    private function checkByUserAndId($user, $id) {
         $em = $this->getEntityManager();
 
-        $snippet = $this->findOneById($id);
+        $query = $em->createQuery('
+            SELECT s
+            FROM TerrificComposition:Project p, TerrificComposition:Module m, TerrificComposition:Snippet s
+             WHERE m.project = p.id
+                AND s.id = :id
+                AND s.id = m.markup
+                 OR s.id = m.style
+                 OR s.id = m.script
+                AND p.user = :user')
+            ->setParameter('id', $id)
+            ->setParameter('user', $user)
+            ->setMaxResults(1);
 
-        $em->remove($snippet);
-        $em->flush();
+        $result = $query->getResult();
+        $snippet = $result[0];
+
+        if(!$snippet) {
+            throw new \Exception('the project with the id "'.$id.'" does not belong to you');
+        }
+
+        return $snippet;
     }
-
-
 }

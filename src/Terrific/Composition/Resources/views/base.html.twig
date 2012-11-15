@@ -22,13 +22,13 @@
     {% endstylesheets %}
 
     {% stylesheets
-    '../src/Terrific/Module/*/Resources/public/css/*.*'
-    '../src/Terrific/Module/*/Resources/public/css/skin/*.*'
-    filter="terrificrewrite"
-    output="css/compiled/base.css"
+        '../src/Terrific/Module/*/Resources/public/css/*.*'
+        '../src/Terrific/Module/*/Resources/public/css/skin/*.*'
+        filter="terrificrewrite"
+        output="css/compiled/base.css"
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
+    {% endstylesheets %}
     {% endblock %}
 </head>
 <body data-baseurl="{{ app.request.baseurl }}" class="{% block body_class %}{% endblock %}">

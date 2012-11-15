@@ -16,39 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 class SnippetController extends Controller
 {
     /**
-     * @Route("/", defaults={"_format"="json"}, name="snippet_create")
-     * @Method({"POST"})
-     */
-    public function createAction(Request $request)
-    {
-        $serializer = $this->container->get('serializer');
-        $repo = $this->getDoctrine()->getRepository('TerrificComposition:Snippet');
-
-        $snippet = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Snippet', 'json');
-        $snippet = $repo->create($snippet);
-
-        return new Response($serializer->serialize($snippet, 'json'));
-    }
-
-    /**
-     * @Route("/{id}", defaults={"_format"="json"}, name="snippet_read")
-     * @Method({"GET"})
-     */
-    public function readAction($id)
-    {
-        $serializer = $this->container->get('serializer');
-        $repo = $this->getDoctrine()->getRepository('TerrificComposition:Snippet');
-
-        $snippet = $repo->find($id);
-
-        if(!$snippet) {
-            throw new \Exception('the snippet with the id "'.$id.'" could not be found');
-        }
-
-        return new Response($serializer->serialize($snippet, 'json'));
-    }
-
-    /**
      * @Route("/{id}", defaults={"_format"="json"}, name="snippet_update")
      * @Method({"PUT"})
      */
@@ -58,7 +25,7 @@ class SnippetController extends Controller
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Snippet');
 
         $snippet = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Snippet', 'json');
-        $snippet = $repo->update($id, $snippet);
+        $snippet = $repo->update($this->getUser(), $id, $snippet);
 
         return new Response($serializer->serialize($snippet, 'json'));
     }

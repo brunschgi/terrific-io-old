@@ -56,11 +56,7 @@ class ProjectController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Project');
 
-        $project = $repo->get($this->getUser(), $id);
-
-        if(!$project) {
-            throw new \Exception('the project with the id "'.$id.'" could not be found');
-        }
+        $project = $repo->findOneByUserAndId($this->getUser(), $id);
 
         $serializer->setGroups(array('project_details'));
         return new Response($serializer->serialize($project, 'json'));

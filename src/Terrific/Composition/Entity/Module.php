@@ -18,8 +18,6 @@ use JMS\SerializerBundle\Annotation\Accessor;
 class Module
 {
     /**
-     * @var integer $id
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -29,8 +27,20 @@ class Module
     private $id;
 
     /**
-     * @var string $title
-     *
+     * @ORM\Column(name="in_work", type="boolean")
+     * @Type("boolean")
+     * @Groups({"project_list", "project_details", "module_list", "module_details"})
+     */
+    private $inWork = false;
+
+    /**
+     * @ORM\Column(name="shared", type="boolean")
+     * @Type("boolean")
+     * @Groups({"project_list", "project_details", "module_list", "module_details"})
+     */
+    private $shared = false;
+
+    /**
      * @ORM\Column(name="title", type="string", length=255)
      * @Type("string")
      * @Groups({"project_list", "project_details", "module_list", "module_details"})
@@ -38,8 +48,6 @@ class Module
     private $title;
 
     /**
-     * @var text $description
-     *
      * @ORM\Column(name="description", type="text")
      * @Type("string")
      * @Groups({"project_list", "project_details", "module_list", "module_details"})
@@ -48,7 +56,6 @@ class Module
 
     /**
      * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      * @Type("integer")
      * @Groups({"module_details"})
      */
@@ -206,5 +213,51 @@ class Module
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Set inWork
+     *
+     * @param boolean $inWork
+     * @return Module
+     */
+    public function setInWork($inWork)
+    {
+        $this->inWork = $inWork;
+
+        return $this;
+    }
+
+    /**
+     * Get inWork
+     *
+     * @return boolean
+     */
+    public function getInWork()
+    {
+        return $this->inWork;
+    }
+
+    /**
+     * Set shared
+     *
+     * @param boolean $shared
+     * @return Module
+     */
+    public function setShared($shared)
+    {
+        $this->shared = $shared;
+
+        return $this;
+    }
+
+    /**
+     * Get shared
+     *
+     * @return boolean
+     */
+    public function getShared()
+    {
+        return $this->shared;
     }
 }

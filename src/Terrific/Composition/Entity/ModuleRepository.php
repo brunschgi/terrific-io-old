@@ -19,7 +19,7 @@ class ModuleRepository extends EntityRepository
 
         // check whether the user is authorized to create a new module for the given project
         $projectRepo = $this->getEntityManager()->getRepository('TerrificComposition:Project');
-        $project = $projectRepo->findOneById($module->getProject());
+        $project = $projectRepo->findOneByUserAndId($user, $module->getProject());
 
         // create some default values
         $module->setTitle('My new experiment');
@@ -61,10 +61,9 @@ class ModuleRepository extends EntityRepository
         return $module;
     }
 
-    public function update($id, $tmpModule) {
+    public function update($user, $id, $tmpModule) {
         $em = $this->getEntityManager();
-
-        $module = $this->findOneById($id);
+        $module = $this->findOneByUserAndId($user, $id);
 
         $module->setTitle($tmpModule->getTitle());
         $module->setDescription($tmpModule->getDescription());
@@ -97,10 +96,10 @@ class ModuleRepository extends EntityRepository
         return $module;
     }
 
-    public function delete($id) {
+    public function delete($user, $id) {
         $em = $this->getEntityManager();
 
-        $module = $this->findOneById($id);
+        $module = $this->findOneByUserAndId($user, $id);
 
         $em->remove($module);
         $em->flush();
@@ -114,5 +113,28 @@ class ModuleRepository extends EntityRepository
             ->setMaxResults(10);
 
         return $query->getResult();
+    }
+
+    public function findOneByUserAndId($user, $id) {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery('
+            SELECT m
+            FROM TerrificComposition:Module m
+                JOIN m.project p
+            WHERE m.id = :id
+                AND p.user = :user')
+            ->setParameter('id', $id)
+            ->setParameter('user', $user)
+            ->setMaxResults(1);
+
+        $result = $query->getResult();
+        $module = $result[0];
+
+        if(!$module) {
+            throw new \Exception('the module with the id "'.$id.'" could not be found');
+        }
+
+        return $module;
     }
 }

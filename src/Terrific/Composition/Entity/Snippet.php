@@ -18,8 +18,6 @@ use JMS\SerializerBundle\Annotation\Exclude;
 class Snippet
 {
     /**
-     * @var integer $id
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -44,15 +42,13 @@ class Snippet
      *
      * Contains the compiled code (ie. compiled LESS)
      *
-     * @ORM\Column(name="compiled", type="text")
+     * @ORM\Column(name="compiled", type="text", nullable=true)
      * @Type("string")
      * @Exclude
      */
     private $compiled;
 
     /**
-     * @var string $mode
-     *
      * @ORM\Column(name="mode", type="string", length=255)
      * @Type("string")
      * @Groups({"module_details"})
@@ -118,14 +114,14 @@ class Snippet
     public function setCompiled($compiled)
     {
         $this->compiled = $compiled;
-    
+
         return $this;
     }
 
     /**
      * Get compiled
      *
-     * @return string 
+     * @return string
      */
     public function getCompiled()
     {

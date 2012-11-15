@@ -40,7 +40,7 @@ class ModuleController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
-        $modules = $repo->findPage($type, $page);
+        $modules = $repo->findPage($this->getUser(), $type, $page);
 
         $serializer->setGroups(array('module_list'));
         return new Response($serializer->serialize($modules, 'json'));
@@ -56,11 +56,7 @@ class ModuleController extends Controller
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
-        $module = $repo->findOneById($id);
-
-        if(!$module) {
-            throw new \Exception('the module with the id "'.$id.'" could not be found');
-        }
+        $module = $repo->findOneByUserAndId($this->getUser(), $id);
 
         $serializer->setGroups(array('module_details'));
         return new Response($serializer->serialize($module, 'json'));
@@ -72,7 +68,7 @@ class ModuleController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->getDoctrine()->getRepository('TerrificComposition:Module')->delete($id);
+        $this->getDoctrine()->getRepository('TerrificComposition:Module')->delete($this->getUser(), $id);
         return new Response();
     }
 
@@ -86,27 +82,22 @@ class ModuleController extends Controller
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
         $module = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Module', 'json');
-        $module = $repo->update($id, $module);
+        $module = $repo->update($this->getUser(), $id, $module);
 
         return new Response($serializer->serialize($module, 'json'));
     }
 
     /**
-     * @Route("/render/{id}/{type}", requirements={"id"="\d+", "type"="fresh|compiled"}, defaults={"type"="compiled"} , name="module_render")
+     * @Route("/render/{id}", requirements={"id"="\d+"} , name="module_render")
      * @Template()
      */
     public function renderAction($id, $type) {
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
-        if($type === "compiled") {
-            $module = $repo->find($id);
-        }
-        else {
-            $module = $repo->findFresh($id);
-        }
+        $module = $repo->findOneByUserAndId($this->getUser(), $id);
 
-        if(!$module) {
-            throw new \Exception('the module with the id "'.$id.'" could not be found');
+        if(!$module->getShared()) {
+
         }
 
         return array('module' => $module);

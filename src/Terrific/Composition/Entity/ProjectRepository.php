@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectRepository extends EntityRepository
 {
-
     public function getAll($user) {
         $em = $this->getEntityManager();
 
@@ -20,19 +19,6 @@ class ProjectRepository extends EntityRepository
             ->setParameter('user', $user);
 
         return $query->getResult();
-    }
-
-    public function get($user, $id)
-    {
-        $em = $this->getEntityManager();
-
-        $query = $em->createQuery('SELECT p FROM TerrificComposition:Project p WHERE p.id = :id AND p.user = :user')
-            ->setParameter('id', $id)
-            ->setParameter('user', $user)
-            ->setMaxResults(1);
-
-        $result = $query->getResult();
-        return $result[0];
     }
 
     public function create($user, $project) {
@@ -49,21 +35,38 @@ class ProjectRepository extends EntityRepository
         return $project;
     }
 
-    public function update($id, $tmpProject) {
-        $em = $this->getEntityManager();
+    public function update($user, $id, $tmpProject) {
+        $project = $this->findOneByUserAndId($user, $id);
 
-        $project = $this->findOneById($id);
-        $em->flush();
+        // TODO: update logic
 
         return $project;
     }
 
-    public function delete($id) {
+    public function delete($user, $id) {
         $em = $this->getEntityManager();
 
-        $project = $this->findOneById($id);
+        $project = $this->findOneByUserAndId($user, $id);
 
         $em->remove($project);
         $em->flush();
+    }
+
+    public function findOneByUserAndId($user, $id) {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery('SELECT p FROM TerrificComposition:Project p WHERE p.id = :id AND p.user = :user')
+            ->setParameter('id', $id)
+            ->setParameter('user', $user)
+            ->setMaxResults(1);
+
+        $result = $query->getResult();
+        $project = $result[0];
+
+        if(!$project) {
+            throw new \Exception('the project with the id "'.$id.'" could not be found');
+        }
+
+        return $project;
     }
 }

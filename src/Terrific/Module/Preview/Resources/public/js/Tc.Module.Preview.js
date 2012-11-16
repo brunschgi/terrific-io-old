@@ -14,13 +14,24 @@
             var self = this,
                 $ctx = this.$ctx,
                 model = this.model,
-                baseurl = '/js/dependencies/' + model.get('id'),
+                dependencyBaseurl = '/js/dependencies/' + model.get('id'),
+                baseurl = this.sandbox.getConfigParam('baseurl'),
                 view = doT.template($('#mod-preview').text());
+
+
+            // local models & settings
+            var markup = model.get('markup'),
+                style = model.get('style'),
+                script = model.get('script'),
+                precompilers = {
+                    style : style.get('mode')
+                };
 
             // create DOM
             $ctx.html(view());
 
-            var doc = $ctx.find('iframe').contents()[0];
+            var $iframe = $ctx.find('iframe'),
+                doc = $iframe.contents()[0];
 
             // FF hack
             doc.open();
@@ -31,7 +42,7 @@
 
             // because iframe content can not be rendered directly with doT, we need to render it manually
             head.innerHTML = '<style></style>';
-            var style = doc.getElementsByTagName('style')[0];
+            var moduleStyle = doc.getElementsByTagName('style')[0];
 
             var requirejs = doc.createElement('script');
             requirejs.setAttribute('type','text/javascript');
@@ -39,47 +50,79 @@
 
             var requireConfig = doc.createElement('script');
             requireConfig.setAttribute('type','text/javascript');
-            requireConfig.appendChild(doc.createTextNode('requirejs.config({ baseUrl: "' + baseurl + '", paths: { lib: "../libraries" }});'));
+            requireConfig.appendChild(doc.createTextNode('requirejs.config({ baseUrl: "' + dependencyBaseurl + '", paths: { lib: "../libraries" }});'));
 
             var moduleScript = null;
 
             // start loading
             requirejs.onload = function() {
                 head.appendChild(requireConfig);
-                // initial rendering
-                render();
+                // initial rendering (compile everything)
+                render({ markup : true, style : true, script : true });
             };
             head.appendChild(requirejs);
 
-            var render = function() {
+            var render = function(compile) {
+                compile = $.extend({}, { markup : false, style : false, script : false }, compile);
+
                 // style -> including all external resources
-                style.innerHTML = 'body { margin: 0; min-height: 100px; } ' + model.get('style').get('code');
-
-                // markup
-                body.innerHTML = model.get('markup').get('code');
-
-                // script -> wrapped with a require.js definition for all external resources
-                if(moduleScript) {
-                    head.removeChild(moduleScript);
+                var userStyle = style.get('code');
+                if(compile['style'] && precompilers['style']) {
+                    $.ajax(baseurl + '/api/precompile/' + precompilers['style'].replace('/', '-'), {
+                        type : 'POST',
+                        data : userStyle,
+                        success : function (data) {
+                            moduleStyle.innerHTML = data;
+                            renderMarkupAndScript();
+                        }
+                    });
+                } else if (compile['style']) {
+                    moduleStyle.innerHTML = userStyle;
+                    renderMarkupAndScript();
                 }
-                moduleScript = doc.createElement('script');
-                moduleScript.setAttribute('type','text/javascript');
-                moduleScript.appendChild(doc.createTextNode('require(["lib/jquery", "lib/terrific"], function() {' + model.get('script').get('code') + ' });'));
+                else {
+                    renderMarkupAndScript();
+                }
 
-                head.appendChild(moduleScript);
+                function renderMarkupAndScript() {
+                    // markup (always renew because of possibly applied styles and functionality from js)
+                    body.innerHTML = markup.get('code');
+
+                    // script -> wrapped with a require.js definition for all external resources
+                    if(moduleScript) {
+                        head.removeChild(moduleScript);
+                    }
+                    moduleScript = doc.createElement('script');
+                    moduleScript.setAttribute('type','text/javascript');
+                    moduleScript.appendChild(doc.createTextNode('require(["lib/jquery", "lib/terrific"], function() {' + script.get('code') + ' });'));
+
+                    head.appendChild(moduleScript);
+                }
             };
 
             // editor events
-            model.get('markup').on('change:code', function() {
-                render();
+            markup.on('change:code', function() {
+                render({ markup : true});
             });
 
-            model.get('style').on('change:code', function() {
-                render();
+            style.on('change:code', function() {
+                render({ style : true});
             });
 
-            model.get('script').on('change:code', function() {
-                render();
+            script.on('change:code', function() {
+                render({ script : true});
+            });
+
+            // editor settings events
+            style.on('change:mode', function() {
+                if(style.get('mode') !== 'text/css') {
+                    precompilers['style'] = style.get('mode');
+                }
+                else {
+                    precompilers['style'] = null;
+                }
+
+                render({ style : true});
             });
 
             callback();

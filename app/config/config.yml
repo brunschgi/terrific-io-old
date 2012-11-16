@@ -17,6 +17,10 @@ framework:
     trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
     session:         ~
 
+# terrific.io Configuration
+terrific_composition:
+  node: /usr/local/bin/node
+  node_paths: [/usr/local/lib/node, /usr/local/lib/node_modules]
 
 # Twig Configuration
 twig:

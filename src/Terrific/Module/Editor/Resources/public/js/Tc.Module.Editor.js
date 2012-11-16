@@ -6,21 +6,24 @@
         init:function ($ctx, sandbox, id) {
             // call base constructor
             this._super($ctx, sandbox, id);
-            this.model= sandbox.getConfigParam('model').module.get($ctx.data('type'));
+            this.type = $ctx.data('type');
+            this.model= sandbox.getConfigParam('model').module.get(this.type);
             this.editor = null;
         },
 
         on:function (callback) {
             var self = this,
                 $ctx = this.$ctx,
+                type = this.type,
                 model = this.model,
                 readonly = $ctx.data('readonly'),
                 delay;
 
             // create DOM
-            var view = doT.template($('#mod-editor').text());
+            var view = doT.template($('#mod-editor-' + type).text());
             $ctx.html(view());
 
+            // bind DOM events
             var editor = this.editor = CodeMirror($('.editor', $ctx)[0], {
                 mode: model.get('mode'),
                 value: model.get('code'),
@@ -36,11 +39,21 @@
                         else {
                             model.save({'code' : editor.getValue()});
                         }
-                    }, 300);
+                    }, 500);
                 },
                 onViewportChange: function() {
                     editor.refresh();
                 }
+            });
+
+            $ctx.on('click', '.precompilers a', function() {
+               var $this = $(this),
+                   mode = $this.attr('href').substring(1);
+
+               model.set('mode', mode);
+               editor.setOption('mode', mode);
+
+               return false;
             });
 
             callback();

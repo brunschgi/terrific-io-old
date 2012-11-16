@@ -38,7 +38,8 @@
             doc.close();
 
             var head = doc.getElementsByTagName('head')[0],
-                body = doc.getElementsByTagName('body')[0];
+                body = doc.getElementsByTagName('body')[0],
+                $body = $(body);
 
             // because iframe content can not be rendered directly with doT, we need to render it manually
             head.innerHTML = '<style></style>';
@@ -97,6 +98,9 @@
                     moduleScript.appendChild(doc.createTextNode('require(["lib/jquery", "lib/terrific"], function() {' + script.get('code') + ' });'));
 
                     head.appendChild(moduleScript);
+
+                    // set height
+                    $ctx.height($body.outerHeight());
                 }
             };
 

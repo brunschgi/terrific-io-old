@@ -14,5 +14,10 @@
                 <argument key="github">githubId</argument>
             </argument>
         </service>
+        <service id="terrific_composition.precompiler"
+                 class="Terrific\Composition\Service\PreCompiler" public="true">
+            <argument type="string">%terrific_composition.node%</argument>
+            <argument>%terrific_composition.node_paths%</argument>
+        </service>
     </services>
 </container>

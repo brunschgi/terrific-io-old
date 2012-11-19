@@ -24,8 +24,22 @@
                 style = model.get('style'),
                 script = model.get('script'),
                 precompilers = {
-                    style : style.get('mode')
+                    markup : null,
+                    style : null,
+                    script : null
                 };
+
+            var setPrecompilers = function() {
+                if(style.get('mode') !== 'text/css') {
+                    precompilers['style'] = style.get('mode');
+                }
+                else {
+                    precompilers['style'] = null;
+                }
+            };
+
+            // initial set of precompilers
+            setPrecompilers();
 
             // create DOM
             $ctx.html(view());
@@ -66,6 +80,24 @@
             var render = function(compile) {
                 compile = $.extend({}, { markup : false, style : false, script : false }, compile);
 
+                function renderMarkupAndScript() {
+                    // markup (always renew because of possibly applied styles and functionality from js)
+                    body.innerHTML = markup.get('code');
+
+                    // script -> wrapped with a require.js definition for all external resources
+                    if(moduleScript) {
+                        head.removeChild(moduleScript);
+                    }
+                    moduleScript = doc.createElement('script');
+                    moduleScript.setAttribute('type','text/javascript');
+                    moduleScript.appendChild(doc.createTextNode('require(["lib/jquery", "lib/terrific"], function() {' + script.get('code') + ' });'));
+
+                    head.appendChild(moduleScript);
+
+                    // set height
+                    $ctx.height($body.outerHeight());
+                }
+
                 // style -> including all external resources
                 var userStyle = style.get('code');
                 if(compile['style'] && precompilers['style']) {
@@ -84,24 +116,6 @@
                 else {
                     renderMarkupAndScript();
                 }
-
-                function renderMarkupAndScript() {
-                    // markup (always renew because of possibly applied styles and functionality from js)
-                    body.innerHTML = markup.get('code');
-
-                    // script -> wrapped with a require.js definition for all external resources
-                    if(moduleScript) {
-                        head.removeChild(moduleScript);
-                    }
-                    moduleScript = doc.createElement('script');
-                    moduleScript.setAttribute('type','text/javascript');
-                    moduleScript.appendChild(doc.createTextNode('require(["lib/jquery", "lib/terrific"], function() {' + script.get('code') + ' });'));
-
-                    head.appendChild(moduleScript);
-
-                    // set height
-                    $ctx.height($body.outerHeight());
-                }
             };
 
             // editor events
@@ -119,13 +133,7 @@
 
             // editor settings events
             style.on('change:mode', function() {
-                if(style.get('mode') !== 'text/css') {
-                    precompilers['style'] = style.get('mode');
-                }
-                else {
-                    precompilers['style'] = null;
-                }
-
+                setPrecompilers();
                 render({ style : true});
             });
 

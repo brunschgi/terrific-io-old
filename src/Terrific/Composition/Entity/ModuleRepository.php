@@ -79,15 +79,21 @@ class ModuleRepository extends EntityRepository
         $style = $module->getStyle();
         $style->setCode($tmpStyle->getCode());
         $style->setMode($tmpStyle->getMode());
-        // TODO: precompile if necessary
-        $style->setCompiled($tmpStyle->getCode());
+
+        if($style->getMode() !== 'text/css') {
+            // precompile styles
+            $style->setCompiled('');
+        }
+        else {
+            $style->setCompiled($tmpStyle->getCode());
+        }
+
         $module->setStyle($style);
 
         $tmpScript= $tmpModule->getScript();
         $script = $module->getScript();
         $script->setCode($tmpScript->getCode());
         $script->setMode($tmpScript->getMode());
-        // TODO: precompile if necessary
         $script->setCompiled($tmpScript->getCode());
         $module->setScript($script);
 

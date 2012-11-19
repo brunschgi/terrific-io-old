@@ -19,8 +19,8 @@ framework:
 
 # terrific.io Configuration
 terrific_composition:
-  node: /usr/local/bin/node
-  node_paths: [/usr/local/lib/node, /usr/local/lib/node_modules]
+    node: %node%
+    node_paths: %node_paths%
 
 # Twig Configuration
 twig:
@@ -35,8 +35,8 @@ assetic:
     # java: /usr/bin/java
     filters:
         less:
-          node: /usr/local/bin/node
-          node_paths: [/usr/local/lib/node, /usr/local/lib/node_modules]
+          node: %node%
+          node_paths: %node_paths%
           apply_to: "\.less$"
         cssrewrite: ~
         terrificrewrite:

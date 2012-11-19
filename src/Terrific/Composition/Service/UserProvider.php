@@ -10,9 +10,6 @@
 
 namespace Terrific\Composition\Service;
 
-// these import the "@Route" and "@Template" annotations
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

@@ -16,7 +16,6 @@
                 $ctx = this.$ctx,
                 type = this.type,
                 model = this.model,
-                readonly = $ctx.data('readonly'),
                 delay;
 
             // create DOM
@@ -33,12 +32,7 @@
                     clearTimeout(delay);
                     delay = setTimeout(function() {
                         // change model
-                        if(readonly) {
-                            model.set({'code' : editor.getValue()});
-                        }
-                        else {
-                            model.save({'code' : editor.getValue()});
-                        }
+                        model.save({'code' : editor.getValue()});
                     }, 500);
                 },
                 onViewportChange: function() {
@@ -50,7 +44,7 @@
                var $this = $(this),
                    mode = $this.attr('href').substring(1);
 
-               model.set('mode', mode);
+               model.save({ 'mode' : mode });
                editor.setOption('mode', mode);
 
                return false;

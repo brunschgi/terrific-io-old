@@ -6,6 +6,9 @@ parameters:
     database_user     : terrific_io
     database_password : terrific_io
 
+    node              : /usr/local/bin/node
+    node_paths        : [/usr/local/lib/node, /usr/local/lib/node_modules]
+
     mailer_transport  : smtp
     mailer_host       : localhost
     mailer_user       : ~

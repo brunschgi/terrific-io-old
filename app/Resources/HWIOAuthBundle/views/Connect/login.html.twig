@@ -8,24 +8,22 @@
     {# stylesheets #}
     {% block styles %}
         {% stylesheets
-        '@TerrificComposition/Resources/public/css/reset.css'
-        '@TerrificComposition/Resources/public/css/grid.css'
-        '@TerrificComposition/Resources/public/css/libraries/codemirror/codemirror.css'
-        '@TerrificComposition/Resources/public/css/libraries/codemirror/theme/solarized.css'
-        '@TerrificComposition/Resources/public/css/font/terrificio.css'
-        '@TerrificComposition/Resources/public/css/elements.less'
-        output="css/compiled/project.css"
+            '@TerrificComposition/Resources/public/css/reset.css'
+            '@TerrificComposition/Resources/public/css/grid.css'
+            '@TerrificComposition/Resources/public/css/font/terrificio.css'
+            '@TerrificComposition/Resources/public/css/elements.less'
+            output="css/compiled/project.css"
         %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
+            <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
 
         {% stylesheets
-        '../src/Terrific/Module/*/Resources/public/css/*.*'
-        '../src/Terrific/Module/*/Resources/public/css/skin/*.*'
-        filter="terrificrewrite"
-        output="css/compiled/base.css"
+            '../src/Terrific/Module/*/Resources/public/css/*.*'
+            '../src/Terrific/Module/*/Resources/public/css/skin/*.*'
+            filter="terrificrewrite"
+            output="css/compiled/base.css"
         %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
+            <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
 </head>

@@ -8,6 +8,7 @@
             // call base constructor
             this._super($ctx, sandbox, id);
             this.model = sandbox.getConfigParam('model').module;
+            this.offsetY = 0;
         },
 
         on:function (callback) {
@@ -45,15 +46,15 @@
             $ctx.html(view());
 
             var $iframe = $ctx.find('iframe'),
-                doc = $iframe.contents()[0];
+                doc = $iframe.contents()[0],
+                $divider = $('.divider', $ctx);
 
             // FF hack
             doc.open();
             doc.close();
 
             var head = doc.getElementsByTagName('head')[0],
-                body = doc.getElementsByTagName('body')[0],
-                $body = $(body);
+                body = doc.getElementsByTagName('body')[0];
 
             // because iframe content can not be rendered directly with doT, we need to render it manually
             head.innerHTML = '<style></style>';
@@ -95,7 +96,7 @@
                     head.appendChild(moduleScript);
 
                     // set height
-                    $ctx.height($body.outerHeight());
+                    $ctx.height($divider.outerHeight() + 100);
                 }
 
                 // style -> including all external resources
@@ -137,6 +138,15 @@
                 render({ style : true});
             });
 
+            // divider
+            $divider.draggable({
+                iframeFix: true,
+                axis: 'y',
+                stop: function(e, ui) {
+                    self.offsetY = ui.position.top;
+                }
+            });
+
             callback();
         },
 
@@ -145,10 +155,10 @@
                 $ctx = this.$ctx;
 
             if(data.type === 'preview') {
-                $ctx.show();
+                $('.divider', $ctx).animate({'top' : 0}, 200);
             }
             else {
-                $ctx.hide();
+                $('.divider', $ctx).animate({'top' : this.offsetY}, 200);
             }
         },
 

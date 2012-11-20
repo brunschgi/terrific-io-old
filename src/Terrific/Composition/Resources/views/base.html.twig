@@ -11,12 +11,20 @@
     {% stylesheets
         '@TerrificComposition/Resources/public/css/reset.css'
         '@TerrificComposition/Resources/public/css/grid.css'
-        '@TerrificComposition/Resources/public/css/libraries/codemirror/codemirror.css'
-        '@TerrificComposition/Resources/public/css/libraries/codemirror/theme/solarized.css'
         '@TerrificComposition/Resources/public/css/font/terrificio.css'
         '@TerrificComposition/Resources/public/css/font/pacifico.css'
         '@TerrificComposition/Resources/public/css/elements.less'
         output="css/compiled/project.css"
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/dependencies/libraries/jquery-ui-1.9.1.custom.min.css') }}" />
+
+    {% stylesheets
+        'css/dependencies/libraries/codemirror/codemirror.css'
+        'css/dependencies/libraries/codemirror/theme/solarized.css'
+         output="css/compiled/codemirror.css"
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -52,8 +60,9 @@
 
 {% block scripts %}
 
-    <script src="{{ asset('/js/dependencies/libraries/jquery.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('/js/dependencies/libraries/terrific.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/dependencies/libraries/jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/dependencies/libraries/jquery-ui-1.9.1.custom.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/dependencies/libraries/terrific.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
         // global config
@@ -71,14 +80,8 @@
 
     {% javascripts
       '@TerrificComposition/Resources/public/js/models/*.js'
-       output='js/compiled/models.js'
-    %}
-        <script src="{{ asset_url }}" type="text/javascript"></script>
-    {% endjavascripts %}
-
-    {% javascripts
       '@TerrificComposition/Resources/public/js/routers/*.js'
-       output='js/compiled/routers.js'
+       output='js/compiled/mc.js'
     %}
         <script src="{{ asset_url }}" type="text/javascript"></script>
     {% endjavascripts %}
@@ -92,8 +95,8 @@
     {% endjavascripts %}
 
     {% javascripts
-          '@TerrificComposition/Resources/public/js/libraries/codemirror/codemirror.js'
-          '@TerrificComposition/Resources/public/js/libraries/codemirror/mode/*/*.js'
+          'js/dependencies/libraries/codemirror/codemirror.js'
+          'js/dependencies/libraries/codemirror/mode/*/*.js'
            output='js/compiled/codemirror.js'
         %}
     <script src="{{ asset_url }}" type="text/javascript"></script>

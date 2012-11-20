@@ -10,7 +10,16 @@
 
 @media screen {
     .mod-preview {
-        margin: 1em 30/16em 1em 100/16em;
+        position: absolute;
+        top: 0;
+        width: 100%;
+
+        .divider {
+            margin: 1em 30/16em 1em 100/16em;
+            overflow: hidden;
+            height: 100%;
+            z-index: 10;
+        }
 
         iframe {
             height: 100%;

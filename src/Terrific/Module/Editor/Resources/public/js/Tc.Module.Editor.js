@@ -23,10 +23,12 @@
             $ctx.html(view());
 
             // bind DOM events
-            var editor = this.editor = CodeMirror($('.editor', $ctx)[0], {
+            var $editor = $('.editor', $ctx);
+            var editor = this.editor = CodeMirror($editor[0], {
                 mode: model.get('mode'),
                 value: model.get('code'),
                 theme: 'solarized-light',
+                lineWrapping: true,
                 lineNumbers: true,
                 onChange: function() {
                     clearTimeout(delay);
@@ -34,11 +36,9 @@
                         // change model
                         model.save({'code' : editor.getValue()});
                     }, 500);
-                },
-                onViewportChange: function() {
-                    editor.refresh();
                 }
             });
+            editor.setSize(null, $(window).height() - 90);
 
             $ctx.on('click', '.precompilers a', function() {
                var $this = $(this),
@@ -59,11 +59,16 @@
 
             if(data.type === $ctx.data('type')) {
                 $ctx.show();
+                window.scrollTo(0, 0);
                 this.editor.refresh();
             }
             else {
                 $ctx.hide();
             }
+        },
+
+        onResize: function(data) {
+            this.editor.setSize(null, data.height - 50);
         }
     });
 })(Tc.$);

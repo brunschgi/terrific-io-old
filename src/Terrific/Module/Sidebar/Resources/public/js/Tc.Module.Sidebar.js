@@ -26,6 +26,30 @@
                 return false;
             });
 
+            $ctx.on('dblclick', '.name', function() {
+                var $this = $(this);
+                $this.attr('contenteditable', true);
+                $this.focus().select();
+            });
+
+            $ctx.on('blur', '.name', function() {
+                var $this = $(this);
+                $this.attr('contenteditable', false);
+
+                // save the name
+                var project = self.model.projects.get($this.data('id'));
+                project.save({ name : $this.text() });
+            });
+
+            $ctx.on('keypress', '.name', function(e) {
+                if(e.which == 13) {
+                    // suppress line-breaks and trigger blur
+                    var $this = $(this);
+                    $this.blur();
+                    return false;
+                }
+            });
+
             $ctx.on('click', 'li a', function () {
                 var $this = $(this);
                 Backbone.history.navigate('project/' + $this.attr('href').substring(1), { trigger:true });

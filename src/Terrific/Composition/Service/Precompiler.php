@@ -27,7 +27,7 @@ class PreCompiler
 
     public function precompile($content, $type)
     {
-        if ($type === 'text-x-less') {
+        if ($type === 'text/x-less') {
             $compiled = $this->less($content);
         }
 

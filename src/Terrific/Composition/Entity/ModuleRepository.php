@@ -25,6 +25,8 @@ class ModuleRepository extends EntityRepository
         $module->setTitle('My new experiment');
         $module->setDescription('Psst… please give away a secret about your experiment');
         $module->setProject($project);
+        $module->setInWork(true);
+        $module->setShared(false);
 
         $markup = $module->getMarkup();
         if(!$markup) {
@@ -67,34 +69,25 @@ class ModuleRepository extends EntityRepository
 
         $module->setTitle($tmpModule->getTitle());
         $module->setDescription($tmpModule->getDescription());
+        $module->setInWork($tmpModule->getInWork());
+        $module->setShared($tmpModule->getShared());
 
         $tmpMarkup = $tmpModule->getMarkup();
         $markup = $module->getMarkup();
         $markup->setCode($tmpMarkup->getCode());
         $markup->setMode($tmpMarkup->getMode());
-        $markup->setCompiled($tmpMarkup->getCode());
         $module->setMarkup($markup);
 
         $tmpStyle = $tmpModule->getStyle();
         $style = $module->getStyle();
         $style->setCode($tmpStyle->getCode());
         $style->setMode($tmpStyle->getMode());
-
-        if($style->getMode() !== 'text/css') {
-            // precompile styles
-            $style->setCompiled('');
-        }
-        else {
-            $style->setCompiled($tmpStyle->getCode());
-        }
-
         $module->setStyle($style);
 
         $tmpScript= $tmpModule->getScript();
         $script = $module->getScript();
         $script->setCode($tmpScript->getCode());
         $script->setMode($tmpScript->getMode());
-        $script->setCompiled($tmpScript->getCode());
         $module->setScript($script);
 
         $em->flush();

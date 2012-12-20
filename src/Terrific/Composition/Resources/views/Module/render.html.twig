@@ -8,8 +8,27 @@
 </head>
 <body>
 {{ module.markup.compiled | raw }}
+
+<script type="text/javascript" src="/js/dependencies/libraries/require.js"></script>
 <script>
-    {{ module.script.compiled | raw }}
+    // require config
+    requirejs.config( {
+        baseUrl: '/js/dependencies/{{ module.id }}',
+        paths:{
+            lib:'../libraries'
+        },
+        shim:{
+            'lib/terrific':{
+                deps:['lib/jquery'],
+                exports:'Tc'
+            }
+        }
+    });
+
+    require(["lib/jquery", "lib/terrific"], function() {
+        {{ module.script.compiled | raw }}
+    });
+
 </script>
 </body>
 </html>

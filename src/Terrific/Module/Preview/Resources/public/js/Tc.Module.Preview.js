@@ -8,7 +8,7 @@
             // call base constructor
             this._super($ctx, sandbox, id);
             this.model = sandbox.getConfigParam('model').module;
-            this.offsetY = 0;
+            this.offsetY = $(window).height() - 50;
         },
 
         on:function (callback) {
@@ -64,9 +64,23 @@
             requirejs.setAttribute('type','text/javascript');
             requirejs.setAttribute('src', '/js/dependencies/libraries/require.js');
 
+            // require config
+            var require = {
+                baseUrl: dependencyBaseurl,
+                paths:{
+                    lib:'../libraries'
+                },
+                shim:{
+                    'lib/terrific':{
+                        deps:['lib/jquery'],
+                        exports:'Tc'
+                    }
+                }
+            };
+
             var requireConfig = doc.createElement('script');
             requireConfig.setAttribute('type','text/javascript');
-            requireConfig.appendChild(doc.createTextNode('requirejs.config({ baseUrl: "' + dependencyBaseurl + '", paths: { lib: "../libraries" }});'));
+            requireConfig.appendChild(document.createTextNode('requirejs.config(' + JSON.stringify(require) + ')'));
 
             var moduleScript = null;
 
@@ -94,15 +108,12 @@
                     moduleScript.appendChild(doc.createTextNode('require(["lib/jquery", "lib/terrific"], function() {' + script.get('code') + ' });'));
 
                     head.appendChild(moduleScript);
-
-                    // set height
-                    $ctx.height($divider.outerHeight() + 100);
                 }
 
                 // style -> including all external resources
                 var userStyle = style.get('code');
                 if(compile['style'] && precompilers['style']) {
-                    $.ajax(baseurl + '/api/precompile/' + precompilers['style'].replace('/', '-'), {
+                    $.ajax(baseurl + '/api/precompile/' + precompilers['style'], {
                         type : 'POST',
                         data : userStyle,
                         success : function (data) {
@@ -140,10 +151,12 @@
 
             // divider
             $divider.draggable({
+                handle: '.header',
                 iframeFix: true,
                 axis: 'y',
                 stop: function(e, ui) {
                     self.offsetY = ui.position.top;
+                    self.fire('resize', { height : self.offsetY })
                 }
             });
 
@@ -166,8 +179,17 @@
             var self = this,
                 model = this.model;
 
-            model.save(null, { success : function() {
+            model.save({ 'inWork' : false, 'shared' : true }, { success : function() {
                 console.log('successfully shared');
+            }});
+        },
+
+        onSave: function() {
+            var self = this,
+                model = this.model;
+
+            model.save({ 'inWork' : true }, { success : function() {
+                console.log('successfully saved');
             }});
         }
     });

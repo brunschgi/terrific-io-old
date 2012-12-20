@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class PreCompilerController extends Controller
 {
     /**
-     * @Route("/api/precompile/{type}", name="precompile")
+     * @Route("/api/precompile/{type}", requirements={"type"=".+"}, name="precompile")
      * @Method({"POST"})
      */
     public function precompileAction(Request $request, $type)

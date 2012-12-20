@@ -76,13 +76,36 @@ class ModuleController extends Controller
      * @Route("/{id}", defaults={"_format"="json"}, name="module_update")
      * @Method({"PUT"})
      */
-    public function shareAction(Request $request, $id)
+    public function updateAction(Request $request, $id)
     {
         $serializer = $this->container->get('serializer');
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
 
-        $module = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Module', 'json');
-        $module = $repo->update($this->getUser(), $id, $module);
+        $tmpModule = $serializer->deserialize($request->getContent(), 'Terrific\Composition\Entity\Module', 'json');
+        $module = $repo->update($this->getUser(), $id, $tmpModule);
+
+        if($tmpModule->getShared() || $tmpModule->getInWork()) {
+            // injecting dependencies into entity repositories is quite a pain, therefore this is made here
+            $em = $this->getDoctrine()->getEntityManager();
+            $precompiler = $this->get('terrific_composition.precompiler');
+
+            $markup = $module->getMarkup();
+            $markup->setCompiled($markup->getCode());
+
+            $style = $module->getStyle();
+            if($style->getMode() !== 'text/css') {
+                // precompile styles
+                $style->setCompiled($precompiler->precompile($style->getCode(), $style->getMode()));
+            }
+            else {
+                $style->setCompiled($style->getCode());
+            }
+
+            $script = $module->getScript();
+            $script->setCompiled($script->getCode());
+
+            $em->flush();
+        }
 
         return new Response($serializer->serialize($module, 'json'));
     }
@@ -91,14 +114,9 @@ class ModuleController extends Controller
      * @Route("/render/{id}", requirements={"id"="\d+"} , name="module_render")
      * @Template()
      */
-    public function renderAction($id, $type) {
+    public function renderAction($id) {
         $repo = $this->getDoctrine()->getRepository('TerrificComposition:Module');
-
         $module = $repo->findOneByUserAndId($this->getUser(), $id);
-
-        if(!$module->getShared()) {
-
-        }
 
         return array('module' => $module);
     }

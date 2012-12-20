@@ -13,9 +13,21 @@
 @media screen {
     .mod-editor {
       position: relative;
-      margin: 20/16em 0 20/16em 100/16em;
-      padding-right: 30/16em;
-      z-index: 1;
+      margin: 20/16em 30/16em 20/16em 100/16em;
+      z-index: 11;
+
+      .header {
+          position: relative;
+      }
+
+      .settings {
+          position: absolute;
+          top: 20px;
+          right: 0;
+          height: 200px;
+          width: 400px;
+          z-index: 30;
+      }
 
       .editor {
           font-size: 14px;

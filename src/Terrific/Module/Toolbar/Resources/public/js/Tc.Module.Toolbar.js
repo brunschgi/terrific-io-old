@@ -21,12 +21,16 @@
             $ctx.on('click', 'a', function() {
                 var $this = $(this);
 
+                if($this.is('.save')) {
+                    // save -> the module source is precompiled for faster displaying
+                    self.fire('save');
+                }
                 if($this.is('.share')) {
-                    // share -> compiles everything so that the module can be displayed in module lists
+                    // share -> module can now be displayed in module lists (implicit save)
                     self.fire('share');
                 }
                 else if($this.is('.back')) {
-                    // back
+                    // back to project
                     Backbone.history.navigate($this.attr('href').substring(1), { trigger:true });
                 }
                 else {
